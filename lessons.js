@@ -22,12 +22,39 @@
  *    { type: "vocab", prompt: "がっこう", answer: "school",
  *      options: ["school","train","go","get up"] }
  *    -> answer は options に必ず含めること。
+ *
+ * questions とは別に、レッスンに "conversation" を追加すると
+ * ホーム画面に「かいわテスト」が出る（無ければグレーアウト表示）:
+ *
+ *   conversation: {
+ *     rounds: [
+ *       { english: "What time do you get up?",
+ *         words: ["なんじに", "おきますか"],   // あれば単語ならびかえ（前半用）
+ *         answer: "なんじに おきますか",        // words が無ければ直接ひらがな入力（後半用）
+ *         reply: "しちじに おきます。" },        // 答えた後に表示される返事（省略可）
+ *       ...
+ *     ]
+ *   }
+ *
+ * ラウンドは配列の順番どおりに出題される（シャッフルしない）。
+ * 前半のラウンドに words を付けて足場（スキャフォールド）を作り、
+ * 後半は words を省略して自由入力にすると、だんだんヒントが減っていく
+ * 構成になる。入力チェックは空白や句読点(。/？など)を無視した比較。
+ *
+ * order: そのレッスンが全体の何回目かを表す番号（1始まり）。
+ * students.js の unlockedUpTo とこの番号を比べて、生徒に表示する
+ * レッスンを絞り込む。
+ *
+ * summary: ホーム画面の「ようてん整理」に表示する、読むだけの
+ * 要点リスト（クイズではない）。無ければそのボタンはグレーアウトする。
+ *   summary: { points: ["...", "...", ...] }
  * ------------------------------------------------------------
  */
 
 const LESSONS = [
   {
     id: "ni_de_sample",
+    order: 1,
     title: "「に」と「で」のつかいかた",
     questions: [
       {
@@ -99,6 +126,40 @@ const LESSONS = [
         answer: "seven o'clock",
         options: ["seven o'clock", "school", "train", "go"]
       }
-    ]
+    ],
+    conversation: {
+      rounds: [
+        {
+          english: "What time do you get up?",
+          words: ["なんじに", "おきますか"],
+          answer: "なんじに おきますか",
+          reply: "しちじに おきます。"
+        },
+        {
+          english: "What time do you go to school?",
+          words: ["なんじに", "がっこうに", "いきますか"],
+          answer: "なんじに がっこうに いきますか",
+          reply: "はちじに いきます。"
+        },
+        {
+          english: "Do you go to school by train?",
+          answer: "でんしゃで がっこうに いきますか",
+          reply: "はい、でんしゃで いきます。"
+        },
+        {
+          english: "Do you get up at seven?",
+          answer: "しちじに おきますか",
+          reply: "はい、しちじに おきます。"
+        }
+      ]
+    },
+    summary: {
+      points: [
+        "「に」は場所の到達点・時間を表す：がっこうに いく／しちじに おきる",
+        "「で」は手段・場所を表す：でんしゃで いく",
+        "どちらも「いく・おきる」のような動作の前で使う助詞",
+        "「に」＝行き先・時刻、「で」＝手段、と覚えると区別しやすい"
+      ]
+    }
   }
 ];

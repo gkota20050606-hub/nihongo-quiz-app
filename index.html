@@ -4,25 +4,114 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>日本語れんしゅう</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<button id="bgmToggle" class="bgm-toggle" aria-label="BGMのオンオフ">🔊</button>
+
 <div id="app">
+
+  <!-- ============================================
+       画面0: なまえ選択
+  ============================================= -->
+  <section id="screen-student-select" class="screen">
+    <header class="app-header">
+      <h1>日本語れんしゅう</h1>
+      <p class="app-sub">なまえをえらんでね</p>
+    </header>
+    <div id="studentList" class="lesson-list"></div>
+  </section>
 
   <!-- ============================================
        画面1: レッスン選択
   ============================================= -->
-  <section id="screen-select" class="screen">
+  <section id="screen-select" class="screen hidden">
     <header class="app-header">
       <h1>日本語れんしゅう</h1>
-      <p class="app-sub">練習したいレッスンをえらんでね</p>
+      <p id="selectGreeting" class="app-sub">練習したいレッスンをえらんでね</p>
     </header>
+    <div class="level-row">
+      <div id="levelBadge" class="level-badge">Lv.1</div>
+      <div class="level-bar"><div id="levelBarFill" class="level-bar-fill"></div></div>
+      <div id="levelXpText" class="level-xp-text">0 / 200 XP</div>
+    </div>
+    <div class="student-progress">
+      <div class="student-progress-bar"><div id="studentProgressFill" class="student-progress-fill"></div></div>
+      <div id="studentProgressText" class="student-progress-text"></div>
+    </div>
+    <button id="reviewButton" class="mode-card mode-review">
+      <div class="mode-icon">🔁</div>
+      <div class="mode-info">
+        <div class="mode-name">ふくしゅう</div>
+        <div id="reviewCount" class="mode-count"></div>
+      </div>
+      <div class="mode-arrow">›</div>
+    </button>
     <div id="lesson-list" class="lesson-list"></div>
+    <button id="switchStudentButton" class="secondary-button switch-student-button">ちがうなまえで開く</button>
   </section>
 
   <!-- ============================================
-       画面2: クイズ
+       画面2: レッスンホーム（モードえらび）
+  ============================================= -->
+  <section id="screen-home" class="screen hidden">
+    <div class="home-top">
+      <button id="homeBackButton" class="quit-button" aria-label="レッスン一覧へ">←</button>
+      <h2 id="homeLessonTitle" class="home-lesson-title"></h2>
+    </div>
+    <div class="mode-list">
+      <button id="modeVocabButton" class="mode-card mode-vocab">
+        <div class="mode-icon">📚</div>
+        <div class="mode-info">
+          <div class="mode-name">たんごテスト</div>
+          <div id="modeVocabCount" class="mode-count"></div>
+        </div>
+        <div class="mode-arrow">›</div>
+      </button>
+      <button id="modeGrammarButton" class="mode-card mode-grammar">
+        <div class="mode-icon">🧩</div>
+        <div class="mode-info">
+          <div class="mode-name">ぶんぽうテスト</div>
+          <div id="modeGrammarCount" class="mode-count"></div>
+        </div>
+        <div class="mode-arrow">›</div>
+      </button>
+      <button id="modeConversationButton" class="mode-card mode-conversation">
+        <div class="mode-icon">💬</div>
+        <div class="mode-info">
+          <div class="mode-name">かいわテスト</div>
+          <div id="modeConversationCount" class="mode-count"></div>
+        </div>
+        <div class="mode-arrow">›</div>
+      </button>
+      <button id="modeSummaryButton" class="mode-card mode-summary">
+        <div class="mode-icon">📝</div>
+        <div class="mode-info">
+          <div class="mode-name">ようてん整理</div>
+          <div id="modeSummaryCount" class="mode-count"></div>
+        </div>
+        <div class="mode-arrow">›</div>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================
+       画面2b: ようてん整理
+  ============================================= -->
+  <section id="screen-summary" class="screen hidden">
+    <div class="home-top">
+      <button id="summaryBackButton" class="quit-button" aria-label="ホームへ">←</button>
+      <h2 id="summaryLessonTitle" class="home-lesson-title"></h2>
+    </div>
+    <div id="summaryContent" class="summary-content"></div>
+  </section>
+
+  <!-- ============================================
+       画面3: クイズ（たんご・ぶんぽう共通）
   ============================================= -->
   <section id="screen-quiz" class="screen hidden">
     <div class="quiz-top">
@@ -48,7 +137,7 @@
   </section>
 
   <!-- ============================================
-       画面3: 結果
+       画面4: けっか（たんご・ぶんぽう共通）
   ============================================= -->
   <section id="screen-result" class="screen hidden">
     <div class="result-card">
@@ -78,7 +167,56 @@
 
     <div class="result-actions">
       <button id="retryButton" class="primary-button">もういちど</button>
-      <button id="backToSelectButton" class="secondary-button">レッスンをえらびなおす</button>
+      <button id="backToHomeButton" class="secondary-button">ホームにもどる</button>
+    </div>
+  </section>
+
+  <!-- ============================================
+       画面5: かいわテスト
+  ============================================= -->
+  <section id="screen-conversation" class="screen hidden">
+    <div class="quiz-top">
+      <button id="convQuitButton" class="quit-button" aria-label="やめる">✕</button>
+      <div class="progress-bar"><div id="convProgressFill" class="progress-fill"></div></div>
+      <div id="convRoundBadge" class="score-badge">1/4</div>
+    </div>
+
+    <div id="convPlayArea">
+      <div class="conv-prompt-card">
+        <div class="conv-prompt-label">この質問を日本語にしてみよう</div>
+        <div id="convEnglishPrompt" class="conv-english"></div>
+      </div>
+
+      <div id="convBuildArea" class="reorder-slots"></div>
+      <div id="convOptionsArea" class="options-area reorder-bank"></div>
+
+      <div id="convTypeArea" class="conv-type-area hidden">
+        <input id="convTextInput" class="conv-text-input" type="text" autocomplete="off" spellcheck="false" placeholder="ひらがなで にゅうりょく">
+        <button id="convSubmitButton" class="primary-button">こたえる</button>
+      </div>
+
+      <div id="convFeedback" class="conv-feedback hidden">
+        <div id="convFeedbackText" class="feedback-text"></div>
+        <div id="convCorrectAnswer" class="conv-correct-answer"></div>
+        <div id="convReplyBubble" class="conv-reply-bubble hidden"></div>
+        <button id="convNextButton" class="next-button">つぎへ →</button>
+      </div>
+    </div>
+
+    <div id="convSummary" class="hidden">
+      <div class="result-card">
+        <div id="convSummaryEmoji" class="result-emoji">🎉</div>
+        <h2 id="convSummaryScore" class="result-score">0 / 0 せいかい</h2>
+        <p id="convSummaryMessage" class="result-message"></p>
+      </div>
+      <div id="convReviewSection" class="review-section hidden">
+        <h3>もうすこし練習しよう</h3>
+        <div id="convReviewList" class="review-list"></div>
+      </div>
+      <div class="result-actions">
+        <button id="convRetryButton" class="primary-button">もういちど</button>
+        <button id="convHomeButton" class="secondary-button">ホームにもどる</button>
+      </div>
     </div>
   </section>
 
@@ -87,7 +225,9 @@
 <audio id="sfxHit" src="sounds/hit.wav" preload="auto"></audio>
 <audio id="sfxMiss" src="sounds/miss.wav" preload="auto"></audio>
 
+<script src="students.js"></script>
 <script src="lessons.js"></script>
+<script src="bgm.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

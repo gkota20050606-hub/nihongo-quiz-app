@@ -1,10 +1,42 @@
 /* 日本語れんしゅうアプリ ゲームエンジン */
 
 const els = {
+  screenStudentSelect: document.getElementById("screen-student-select"),
   screenSelect: document.getElementById("screen-select"),
+  screenHome: document.getElementById("screen-home"),
   screenQuiz: document.getElementById("screen-quiz"),
   screenResult: document.getElementById("screen-result"),
+  screenConversation: document.getElementById("screen-conversation"),
+  screenSummary: document.getElementById("screen-summary"),
+
+  studentList: document.getElementById("studentList"),
+  selectGreeting: document.getElementById("selectGreeting"),
+  levelBadge: document.getElementById("levelBadge"),
+  levelBarFill: document.getElementById("levelBarFill"),
+  levelXpText: document.getElementById("levelXpText"),
+  studentProgressFill: document.getElementById("studentProgressFill"),
+  studentProgressText: document.getElementById("studentProgressText"),
+  reviewButton: document.getElementById("reviewButton"),
+  reviewCount: document.getElementById("reviewCount"),
+  switchStudentButton: document.getElementById("switchStudentButton"),
+
   lessonList: document.getElementById("lesson-list"),
+
+  homeBackButton: document.getElementById("homeBackButton"),
+  homeLessonTitle: document.getElementById("homeLessonTitle"),
+  modeVocabButton: document.getElementById("modeVocabButton"),
+  modeVocabCount: document.getElementById("modeVocabCount"),
+  modeGrammarButton: document.getElementById("modeGrammarButton"),
+  modeGrammarCount: document.getElementById("modeGrammarCount"),
+  modeConversationButton: document.getElementById("modeConversationButton"),
+  modeConversationCount: document.getElementById("modeConversationCount"),
+  modeSummaryButton: document.getElementById("modeSummaryButton"),
+  modeSummaryCount: document.getElementById("modeSummaryCount"),
+
+  summaryBackButton: document.getElementById("summaryBackButton"),
+  summaryLessonTitle: document.getElementById("summaryLessonTitle"),
+  summaryContent: document.getElementById("summaryContent"),
+
   progressFill: document.getElementById("progressFill"),
   scoreBadge: document.getElementById("scoreBadge"),
   streakBadge: document.getElementById("streakBadge"),
@@ -19,6 +51,7 @@ const els = {
   feedbackTranslation: document.getElementById("feedbackTranslation"),
   nextButton: document.getElementById("nextButton"),
   quitButton: document.getElementById("quitButton"),
+
   resultEmoji: document.getElementById("resultEmoji"),
   resultScoreText: document.getElementById("resultScoreText"),
   resultMessage: document.getElementById("resultMessage"),
@@ -28,7 +61,32 @@ const els = {
   reviewSection: document.getElementById("reviewSection"),
   reviewList: document.getElementById("reviewList"),
   retryButton: document.getElementById("retryButton"),
-  backToSelectButton: document.getElementById("backToSelectButton"),
+  backToHomeButton: document.getElementById("backToHomeButton"),
+
+  convQuitButton: document.getElementById("convQuitButton"),
+  convProgressFill: document.getElementById("convProgressFill"),
+  convRoundBadge: document.getElementById("convRoundBadge"),
+  convPlayArea: document.getElementById("convPlayArea"),
+  convEnglishPrompt: document.getElementById("convEnglishPrompt"),
+  convBuildArea: document.getElementById("convBuildArea"),
+  convOptionsArea: document.getElementById("convOptionsArea"),
+  convTypeArea: document.getElementById("convTypeArea"),
+  convTextInput: document.getElementById("convTextInput"),
+  convSubmitButton: document.getElementById("convSubmitButton"),
+  convFeedback: document.getElementById("convFeedback"),
+  convFeedbackText: document.getElementById("convFeedbackText"),
+  convCorrectAnswer: document.getElementById("convCorrectAnswer"),
+  convReplyBubble: document.getElementById("convReplyBubble"),
+  convNextButton: document.getElementById("convNextButton"),
+  convSummary: document.getElementById("convSummary"),
+  convSummaryEmoji: document.getElementById("convSummaryEmoji"),
+  convSummaryScore: document.getElementById("convSummaryScore"),
+  convSummaryMessage: document.getElementById("convSummaryMessage"),
+  convReviewSection: document.getElementById("convReviewSection"),
+  convReviewList: document.getElementById("convReviewList"),
+  convRetryButton: document.getElementById("convRetryButton"),
+  convHomeButton: document.getElementById("convHomeButton"),
+
   sfxHit: document.getElementById("sfxHit"),
   sfxMiss: document.getElementById("sfxMiss"),
 };
@@ -49,8 +107,13 @@ const BASE_POINTS = {
 // れんぞく正解ボーナス：2連続目から (streak-1)*5 pt 加算
 const STREAK_BONUS_PER_STEP = 5;
 
+const GRAMMAR_TYPES = ["particle", "reorder"];
+
 let state = {
+  homeLesson: null, // いまホーム画面を開いているレッスン
   lesson: null,
+  mode: "normal", // "normal" | "review"（ふくしゅうモードかどうかで戻り先などが変わる）
+  modeQuestions: null, // このモードで出題する問題（元の配列。retry時の再利用に使う）
   queue: [], // まだ出題していない問題: {uid, question, isRetry}
   current: null, // いま表示している問題
   consumed: 0, // これまでに出題した数（今の問題を含む）
@@ -64,6 +127,15 @@ let state = {
   reorder: null, // { slots: [...], bank: [...] }
 };
 
+let convState = {
+  lesson: null,
+  rounds: [],
+  index: 0,
+  correctCount: 0,
+  wrongRounds: [],
+  reorder: null,
+};
+
 function shuffle(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -74,9 +146,13 @@ function shuffle(arr) {
 }
 
 function showScreen(name) {
+  els.screenStudentSelect.classList.toggle("hidden", name !== "student-select");
   els.screenSelect.classList.toggle("hidden", name !== "select");
+  els.screenHome.classList.toggle("hidden", name !== "home");
   els.screenQuiz.classList.toggle("hidden", name !== "quiz");
   els.screenResult.classList.toggle("hidden", name !== "result");
+  els.screenConversation.classList.toggle("hidden", name !== "conversation");
+  els.screenSummary.classList.toggle("hidden", name !== "summary");
 }
 
 function playSound(ok) {
@@ -95,12 +171,143 @@ function spawnEmojiPopup(text, extraClass) {
   els.questionArea.appendChild(popup);
 }
 
+/* ---------------- なまえ選択・生徒ごとの解禁管理 ---------------- */
+
+const CURRENT_STUDENT_KEY = "nihongo_quiz_student_id";
+let currentStudent = null;
+
+function getStudentById(id) {
+  return (typeof STUDENTS !== "undefined" ? STUDENTS : []).find((s) => s.id === id) || null;
+}
+
+function renderStudentList() {
+  els.studentList.innerHTML = "";
+
+  if (typeof STUDENTS === "undefined" || STUDENTS.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "生徒がまだ登録されていません。";
+    els.studentList.appendChild(empty);
+    return;
+  }
+
+  STUDENTS.forEach((student) => {
+    const card = document.createElement("div");
+    card.className = "lesson-card";
+    card.innerHTML = `
+      <div class="lesson-card-info">
+        <h3>${student.name}</h3>
+      </div>
+      <div class="lesson-start-button">これ ›</div>
+    `;
+    card.addEventListener("click", () => chooseStudent(student));
+    els.studentList.appendChild(card);
+  });
+}
+
+function chooseStudent(student) {
+  currentStudent = student;
+  localStorage.setItem(CURRENT_STUDENT_KEY, student.id);
+  currentProgress = loadProgress(student.id);
+  renderLessonSelectScreen();
+  showScreen("select");
+}
+
+els.switchStudentButton.addEventListener("click", () => {
+  localStorage.removeItem(CURRENT_STUDENT_KEY);
+  currentStudent = null;
+  currentProgress = null;
+  renderStudentList();
+  showScreen("student-select");
+});
+
+/* ---------------- 生徒ごとの永続データ（レベル・ふくしゅうリスト） ----------------
+ * 授業外でも復習できるように、間違えた問題は生徒ごとにブラウザへ保存しておく。
+ * 「ふくしゅう」で正解すると通常より多くのXP/ポイントが入り、リストから消える。
+ * サーバーを使わず localStorage だけで完結させている（[[feedback-quiz-app-publishing]]
+ * の方針どおり、静的サイトのまま拡張する形）。
+ */
+
+const LEVEL_XP_STEP = 200; // このXPごとにレベルが1つ上がる
+let currentProgress = null; // { totalXP, mistakes: [{sig, lessonId, lessonTitle, type, question}] }
+
+function progressKey(studentId) {
+  return "nihongo_quiz_progress_" + studentId;
+}
+
+function loadProgress(studentId) {
+  try {
+    const raw = localStorage.getItem(progressKey(studentId));
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && Array.isArray(parsed.mistakes)) return parsed;
+    }
+  } catch (e) {}
+  return { totalXP: 0, mistakes: [] };
+}
+
+function saveProgress() {
+  if (!currentStudent || !currentProgress) return;
+  localStorage.setItem(progressKey(currentStudent.id), JSON.stringify(currentProgress));
+}
+
+function computeLevel(xp) {
+  const level = Math.floor(xp / LEVEL_XP_STEP) + 1;
+  const xpIntoLevel = xp % LEVEL_XP_STEP;
+  return { level, xpIntoLevel, xpForNextLevel: LEVEL_XP_STEP };
+}
+
+function addXP(amount) {
+  if (!currentProgress || amount <= 0) return;
+  currentProgress.totalXP += amount;
+  saveProgress();
+}
+
+function questionSignature(lessonId, q) {
+  if (q.type === "particle") return [lessonId, "particle", q.before, q.after, q.answer].join("|");
+  if (q.type === "vocab") return [lessonId, "vocab", q.prompt].join("|");
+  if (q.type === "reorder") return [lessonId, "reorder", q.words.join("・")].join("|");
+  return [lessonId, q.type, JSON.stringify(q)].join("|");
+}
+
+function addMistake(lessonId, lessonTitle, q) {
+  if (!currentProgress) return;
+  const sig = questionSignature(lessonId, q);
+  if (currentProgress.mistakes.some((m) => m.sig === sig)) return;
+  currentProgress.mistakes.push({ sig, lessonId, lessonTitle, type: q.type, question: q });
+  saveProgress();
+}
+
+function removeMistakeBySig(sig) {
+  if (!currentProgress) return;
+  currentProgress.mistakes = currentProgress.mistakes.filter((m) => m.sig !== sig);
+  saveProgress();
+}
+
 /* ---------------- レッスン選択 ---------------- */
 
-function renderLessonList() {
+function renderLessonSelectScreen() {
+  els.selectGreeting.textContent = `${currentStudent.name}さん、練習したいレッスンをえらんでね`;
+
+  const { level, xpIntoLevel, xpForNextLevel } = computeLevel(currentProgress.totalXP);
+  els.levelBadge.textContent = `Lv.${level}`;
+  els.levelBarFill.style.width = (xpIntoLevel / xpForNextLevel) * 100 + "%";
+  els.levelXpText.textContent = `${xpIntoLevel} / ${xpForNextLevel} XP`;
+
+  const mistakeCount = currentProgress.mistakes.length;
+  els.reviewCount.textContent = mistakeCount > 0 ? `${mistakeCount}問 まちがえてる` : "なし";
+  els.reviewButton.disabled = mistakeCount === 0;
+  els.reviewButton.classList.toggle("mode-disabled", mistakeCount === 0);
+
+  const total = typeof LESSONS !== "undefined" ? LESSONS.length : 0;
+  const unlocked = Math.min(currentStudent.unlockedUpTo, total);
+  const pct = total === 0 ? 0 : (unlocked / total) * 100;
+  els.studentProgressFill.style.width = pct + "%";
+  els.studentProgressText.textContent = `しんちょく: ${unlocked} / ${total}回`;
+
   els.lessonList.innerHTML = "";
 
-  if (typeof LESSONS === "undefined" || LESSONS.length === 0) {
+  if (total === 0) {
     const empty = document.createElement("div");
     empty.className = "empty-state";
     empty.textContent = "まだレッスンがありません。スライドの写真を送ってレッスンを作ってもらおう。";
@@ -108,25 +315,104 @@ function renderLessonList() {
     return;
   }
 
-  LESSONS.forEach((lesson) => {
+  const visibleLessons = LESSONS.filter((lesson) => (lesson.order || 1) <= currentStudent.unlockedUpTo);
+
+  if (visibleLessons.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "まだ解禁されているレッスンがありません。せんせいに聞いてみよう。";
+    els.lessonList.appendChild(empty);
+    return;
+  }
+
+  visibleLessons.forEach((lesson) => {
     const card = document.createElement("div");
     card.className = "lesson-card";
     card.innerHTML = `
       <div class="lesson-card-info">
         <h3>${lesson.title}</h3>
-        <p>${lesson.questions.length}問</p>
+        <p>${lesson.questions.length}問${lesson.conversation ? " ・ かいわあり" : ""}</p>
       </div>
-      <button class="lesson-start-button">はじめる</button>
+      <div class="lesson-start-button">ひらく ›</div>
     `;
-    card.querySelector(".lesson-start-button").addEventListener("click", () => startLesson(lesson));
+    card.addEventListener("click", () => openHome(lesson));
     els.lessonList.appendChild(card);
   });
 }
 
-function startLesson(lesson) {
-  const wrapped = lesson.questions.map((q, i) => ({ uid: i, question: q, isRetry: false }));
+/* ---------------- レッスンホーム ---------------- */
+
+function openHome(lesson) {
+  state.homeLesson = lesson;
+
+  const vocabCount = lesson.questions.filter((q) => q.type === "vocab").length;
+  const grammarCount = lesson.questions.filter((q) => GRAMMAR_TYPES.includes(q.type)).length;
+  const hasConversation = !!(lesson.conversation && lesson.conversation.rounds && lesson.conversation.rounds.length);
+  const hasSummary = !!(lesson.summary && lesson.summary.points && lesson.summary.points.length);
+
+  els.homeLessonTitle.textContent = lesson.title;
+  els.modeVocabCount.textContent = `${vocabCount}問`;
+  els.modeGrammarCount.textContent = `${grammarCount}問`;
+  els.modeConversationCount.textContent = hasConversation ? `${lesson.conversation.rounds.length}ラウンド` : "じゅんびちゅう";
+  els.modeSummaryCount.textContent = hasSummary ? `${lesson.summary.points.length}こ` : "じゅんびちゅう";
+
+  els.modeVocabButton.disabled = vocabCount === 0;
+  els.modeVocabButton.classList.toggle("mode-disabled", vocabCount === 0);
+  els.modeGrammarButton.disabled = grammarCount === 0;
+  els.modeGrammarButton.classList.toggle("mode-disabled", grammarCount === 0);
+  els.modeConversationButton.disabled = !hasConversation;
+  els.modeConversationButton.classList.toggle("mode-disabled", !hasConversation);
+  els.modeSummaryButton.disabled = !hasSummary;
+  els.modeSummaryButton.classList.toggle("mode-disabled", !hasSummary);
+
+  showScreen("home");
+}
+
+els.homeBackButton.addEventListener("click", () => {
+  renderLessonSelectScreen();
+  showScreen("select");
+});
+
+els.modeSummaryButton.addEventListener("click", () => {
+  openSummary(state.homeLesson);
+});
+
+function openSummary(lesson) {
+  els.summaryLessonTitle.textContent = lesson.title;
+  els.summaryContent.innerHTML = "";
+  lesson.summary.points.forEach((point) => {
+    const div = document.createElement("div");
+    div.className = "summary-point";
+    div.textContent = point;
+    els.summaryContent.appendChild(div);
+  });
+  showScreen("summary");
+}
+
+els.summaryBackButton.addEventListener("click", () => showScreen("home"));
+
+els.modeVocabButton.addEventListener("click", () => {
+  const questions = state.homeLesson.questions.filter((q) => q.type === "vocab");
+  startLesson(state.homeLesson, questions);
+});
+
+els.modeGrammarButton.addEventListener("click", () => {
+  const questions = state.homeLesson.questions.filter((q) => GRAMMAR_TYPES.includes(q.type));
+  startLesson(state.homeLesson, questions);
+});
+
+els.modeConversationButton.addEventListener("click", () => {
+  startConversation(state.homeLesson);
+});
+
+/* ---------------- クイズ（たんご・ぶんぽう共通） ---------------- */
+
+function startLesson(lesson, questions) {
+  const wrapped = questions.map((q, i) => ({ uid: i, question: q, isRetry: false }));
 
   state.lesson = lesson;
+  state.mode = "normal";
+  state.modeQuestions = questions;
   state.queue = shuffle(wrapped);
   state.current = null;
   state.consumed = 0;
@@ -137,11 +423,37 @@ function startLesson(lesson) {
   state.wrongOnceIds = new Set();
   state.wrongList = [];
 
+  els.backToHomeButton.textContent = "ホームにもどる";
   showScreen("quiz");
   renderQuestion();
 }
 
-/* ---------------- クイズ描画 ---------------- */
+els.reviewButton.addEventListener("click", () => {
+  startReview();
+});
+
+function startReview() {
+  const mistakes = currentProgress.mistakes;
+  const wrapped = mistakes.map((m, i) => ({ uid: i, question: m.question, isRetry: true, sig: m.sig }));
+
+  state.lesson = { id: "__review__", title: "ふくしゅう" };
+  state.homeLesson = null;
+  state.mode = "review";
+  state.modeQuestions = mistakes.map((m) => m.question);
+  state.queue = shuffle(wrapped);
+  state.current = null;
+  state.consumed = 0;
+  state.points = 0;
+  state.streak = 0;
+  state.bestStreak = 0;
+  state.redeemedCount = 0;
+  state.wrongOnceIds = new Set();
+  state.wrongList = [];
+
+  els.backToHomeButton.textContent = "レッスン一覧にもどる";
+  showScreen("quiz");
+  renderQuestion();
+}
 
 function updateTopBar() {
   const remaining = state.queue.length;
@@ -339,6 +651,8 @@ function finishAnswer(isCorrect, q, userAnswerDisplay, correctAnswerDisplay) {
 
     state.points += earned;
     bonusText = parts.join("　");
+    addXP(earned);
+    if (item.sig) removeMistakeBySig(item.sig);
 
     let popupEmoji = "";
     if (streakBonus > 0) popupEmoji += "🔥".repeat(Math.min(state.streak - 1, 4));
@@ -347,11 +661,13 @@ function finishAnswer(isCorrect, q, userAnswerDisplay, correctAnswerDisplay) {
   } else {
     state.streak = 0;
     els.questionArea.classList.add("shake");
+    addMistake(state.lesson.id, state.lesson.title, q);
 
     if (!state.wrongOnceIds.has(item.uid)) {
       state.wrongOnceIds.add(item.uid);
       const insertAt = Math.min(state.queue.length, 2 + Math.floor(Math.random() * 3));
-      state.queue.splice(insertAt, 0, { uid: item.uid, question: q, isRetry: true });
+      const sig = item.sig || questionSignature(state.lesson.id, q);
+      state.queue.splice(insertAt, 0, { uid: item.uid, question: q, isRetry: true, sig });
       bonusText = "ざんねん…もう一回チャレンジできるよ！せいかいで2倍ポイント";
     } else {
       state.wrongList.push({
@@ -394,15 +710,22 @@ els.nextButton.addEventListener("click", () => {
 });
 
 els.quitButton.addEventListener("click", () => {
-  if (confirm("れんしゅうをやめてレッスン選択にもどりますか?")) {
-    showScreen("select");
+  const isReview = state.mode === "review";
+  const msg = isReview ? "れんしゅうをやめてレッスン一覧にもどりますか?" : "れんしゅうをやめてホームにもどりますか?";
+  if (confirm(msg)) {
+    if (isReview) {
+      renderLessonSelectScreen();
+      showScreen("select");
+    } else {
+      showScreen("home");
+    }
   }
 });
 
 function finishLesson() {
   els.progressFill.style.width = "100%";
 
-  const total = state.lesson.questions.length;
+  const total = state.modeQuestions.length;
   const mastered = total - state.wrongList.length;
   const pct = total === 0 ? 0 : Math.round((mastered / total) * 100);
 
@@ -447,14 +770,271 @@ function finishLesson() {
 }
 
 els.retryButton.addEventListener("click", () => {
-  startLesson(state.lesson);
+  if (state.mode === "review") {
+    startReview();
+  } else {
+    startLesson(state.lesson, state.modeQuestions);
+  }
 });
 
-els.backToSelectButton.addEventListener("click", () => {
-  showScreen("select");
+els.backToHomeButton.addEventListener("click", () => {
+  if (state.mode === "review") {
+    renderLessonSelectScreen();
+    showScreen("select");
+  } else {
+    showScreen("home");
+  }
 });
+
+/* ================================================
+   かいわテスト
+================================================= */
+
+function normalizeJa(s) {
+  return (s || "")
+    .replace(/[\s　]+/g, "")
+    .replace(/[。.！!？?、,]+$/g, "")
+    .trim();
+}
+
+function startConversation(lesson) {
+  convState.lesson = lesson;
+  convState.rounds = lesson.conversation.rounds;
+  convState.index = 0;
+  convState.correctCount = 0;
+  convState.wrongRounds = [];
+
+  els.convSummary.classList.add("hidden");
+  els.convPlayArea.classList.remove("hidden");
+
+  showScreen("conversation");
+  renderConvRound();
+}
+
+function updateConvTopBar() {
+  const total = convState.rounds.length;
+  const pct = total === 0 ? 0 : (convState.index / total) * 100;
+  els.convProgressFill.style.width = pct + "%";
+  els.convRoundBadge.textContent = `${convState.index + 1}/${total}`;
+}
+
+function renderConvRound() {
+  const round = convState.rounds[convState.index];
+  updateConvTopBar();
+
+  els.convFeedback.classList.add("hidden");
+  els.convReplyBubble.classList.add("hidden");
+  els.convEnglishPrompt.textContent = round.english;
+
+  const isScaffolded = Array.isArray(round.words) && round.words.length > 0;
+
+  els.convBuildArea.classList.toggle("hidden", !isScaffolded);
+  els.convOptionsArea.classList.toggle("hidden", !isScaffolded);
+  els.convTypeArea.classList.toggle("hidden", isScaffolded);
+
+  if (isScaffolded) {
+    const shuffled = shuffle(round.words.map((w, i) => ({ word: w, id: i })));
+    convState.reorder = {
+      slots: new Array(round.words.length).fill(null),
+      bank: shuffled,
+    };
+    renderConvSlots(round);
+    renderConvBank(round);
+  } else {
+    els.convTextInput.value = "";
+    els.convTextInput.disabled = false;
+    els.convTextInput.focus();
+  }
+}
+
+function renderConvSlots(round) {
+  els.convBuildArea.innerHTML = "";
+  convState.reorder.slots.forEach((filled, i) => {
+    const slot = document.createElement("div");
+    slot.className = "reorder-slot" + (filled ? " filled" : "");
+    slot.textContent = filled ? filled.word : "";
+    if (filled) {
+      slot.addEventListener("click", () => removeFromConvSlot(i, round));
+    }
+    els.convBuildArea.appendChild(slot);
+  });
+}
+
+function renderConvBank(round) {
+  els.convOptionsArea.innerHTML = "";
+  convState.reorder.bank.forEach((item) => {
+    const used = convState.reorder.slots.some((s) => s && s.id === item.id);
+    const btn = document.createElement("button");
+    btn.className = "option-button word-chip" + (used ? " disabled-chip" : "");
+    btn.textContent = item.word;
+    btn.addEventListener("click", () => addToConvSlot(item, round));
+    els.convOptionsArea.appendChild(btn);
+  });
+}
+
+function addToConvSlot(item, round) {
+  const emptyIndex = convState.reorder.slots.findIndex((s) => s === null);
+  if (emptyIndex === -1) return;
+  convState.reorder.slots[emptyIndex] = item;
+  renderConvSlots(round);
+  renderConvBank(round);
+
+  if (convState.reorder.slots.every((s) => s !== null)) {
+    const built = convState.reorder.slots.map((s) => s.word).join("");
+    checkConvAnswer(built, convState.reorder.slots.map((s) => s.word).join(" "));
+  }
+}
+
+function removeFromConvSlot(index, round) {
+  convState.reorder.slots[index] = null;
+  renderConvSlots(round);
+  renderConvBank(round);
+}
+
+els.convSubmitButton.addEventListener("click", () => {
+  const val = els.convTextInput.value.trim();
+  if (!val) return;
+  checkConvAnswer(val, val);
+});
+
+els.convTextInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") els.convSubmitButton.click();
+});
+
+function checkConvAnswer(rawUserText, displayUserText) {
+  const round = convState.rounds[convState.index];
+  const isCorrect = normalizeJa(rawUserText) === normalizeJa(round.answer);
+
+  playSound(isCorrect);
+  els.convTextInput.disabled = true;
+
+  if (isCorrect) {
+    convState.correctCount++;
+    addXP(10);
+  } else {
+    convState.wrongRounds.push({
+      english: round.english,
+      userAnswer: displayUserText,
+      correctAnswer: round.answer,
+    });
+  }
+
+  els.convFeedback.classList.remove("hidden");
+  els.convFeedbackText.textContent = isCorrect ? "せいかい! 🎉" : "ざんねん...";
+  els.convFeedbackText.style.color = isCorrect ? "var(--good)" : "var(--bad)";
+  els.convCorrectAnswer.textContent = `せいかい: ${round.answer}`;
+
+  if (round.reply) {
+    els.convReplyBubble.textContent = `💬 ${round.reply}`;
+    els.convReplyBubble.classList.remove("hidden");
+  }
+
+  const isLast = convState.index === convState.rounds.length - 1;
+  els.convNextButton.textContent = isLast ? "けっかを見る →" : "つぎへ →";
+}
+
+els.convNextButton.addEventListener("click", () => {
+  convState.index++;
+  if (convState.index >= convState.rounds.length) {
+    finishConversation();
+  } else {
+    renderConvRound();
+  }
+});
+
+function finishConversation() {
+  els.convProgressFill.style.width = "100%";
+  els.convPlayArea.classList.add("hidden");
+  els.convSummary.classList.remove("hidden");
+
+  const total = convState.rounds.length;
+  const correct = convState.correctCount;
+  const pct = total === 0 ? 0 : Math.round((correct / total) * 100);
+
+  els.convSummaryScore.textContent = `${correct} / ${total} せいかい`;
+
+  if (pct === 100) {
+    els.convSummaryEmoji.textContent = "🏆";
+    els.convSummaryMessage.textContent = "パーフェクト！かいわがバッチリだね！";
+  } else if (pct >= 80) {
+    els.convSummaryEmoji.textContent = "🎉";
+    els.convSummaryMessage.textContent = "すごい！じょうずに質問できたね！";
+  } else if (pct >= 50) {
+    els.convSummaryEmoji.textContent = "💪";
+    els.convSummaryMessage.textContent = "いいかんじ！もう少し練習しよう。";
+  } else {
+    els.convSummaryEmoji.textContent = "🌱";
+    els.convSummaryMessage.textContent = "だいじょうぶ！もう一度チャレンジしてみよう。";
+  }
+
+  if (convState.wrongRounds.length > 0) {
+    els.convReviewSection.classList.remove("hidden");
+    els.convReviewList.innerHTML = "";
+    convState.wrongRounds.forEach((item) => {
+      const div = document.createElement("div");
+      div.className = "review-item";
+      div.innerHTML = `
+        <div class="review-item-type">かいわ</div>
+        <div class="review-item-q">${item.english}</div>
+        <div class="review-item-answer">正解: ${item.correctAnswer}${item.userAnswer ? ` (あなたの答え: ${item.userAnswer})` : ""}</div>
+      `;
+      els.convReviewList.appendChild(div);
+    });
+  } else {
+    els.convReviewSection.classList.add("hidden");
+  }
+}
+
+els.convRetryButton.addEventListener("click", () => {
+  startConversation(convState.lesson);
+});
+
+els.convHomeButton.addEventListener("click", () => {
+  showScreen("home");
+});
+
+els.convQuitButton.addEventListener("click", () => {
+  if (confirm("れんしゅうをやめてホームにもどりますか?")) {
+    showScreen("home");
+  }
+});
+
+/* ---------------- BGM ---------------- */
+
+const bgmToggleButton = document.getElementById("bgmToggle");
+
+function updateBgmIcon() {
+  bgmToggleButton.textContent = ChiptuneBGM.isMuted() ? "🔇" : "🔊";
+}
+
+updateBgmIcon();
+
+bgmToggleButton.addEventListener("click", () => {
+  ChiptuneBGM.toggleMute();
+  updateBgmIcon();
+});
+
+document.addEventListener(
+  "click",
+  function startBgmOnce() {
+    ChiptuneBGM.start();
+    document.removeEventListener("click", startBgmOnce);
+  },
+  { once: true }
+);
 
 /* ---------------- 初期化 ---------------- */
 
-renderLessonList();
-showScreen("select");
+renderStudentList();
+
+const savedStudentId = localStorage.getItem(CURRENT_STUDENT_KEY);
+const savedStudent = savedStudentId ? getStudentById(savedStudentId) : null;
+
+if (savedStudent) {
+  currentStudent = savedStudent;
+  currentProgress = loadProgress(savedStudent.id);
+  renderLessonSelectScreen();
+  showScreen("select");
+} else {
+  showScreen("student-select");
+}
