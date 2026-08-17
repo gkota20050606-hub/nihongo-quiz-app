@@ -318,6 +318,22 @@ button {
   color: var(--primary);
 }
 
+.crown-badge {
+  font-size: 13px;
+  filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.5));
+}
+
+.crown-badge-lg {
+  font-size: 20px;
+  margin-left: 4px;
+}
+
+.lesson-card-crown {
+  font-size: 15px;
+  margin-left: 6px;
+  filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.5));
+}
+
 .empty-state {
   text-align: center;
   color: var(--ink-soft);

@@ -24,12 +24,16 @@ const els = {
 
   homeBackButton: document.getElementById("homeBackButton"),
   homeLessonTitle: document.getElementById("homeLessonTitle"),
+  homeLessonCrown: document.getElementById("homeLessonCrown"),
   modeVocabButton: document.getElementById("modeVocabButton"),
   modeVocabCount: document.getElementById("modeVocabCount"),
+  modeVocabCrown: document.getElementById("modeVocabCrown"),
   modeGrammarButton: document.getElementById("modeGrammarButton"),
   modeGrammarCount: document.getElementById("modeGrammarCount"),
+  modeGrammarCrown: document.getElementById("modeGrammarCrown"),
   modeConversationButton: document.getElementById("modeConversationButton"),
   modeConversationCount: document.getElementById("modeConversationCount"),
+  modeConversationCrown: document.getElementById("modeConversationCrown"),
   modeSummaryButton: document.getElementById("modeSummaryButton"),
   modeSummaryCount: document.getElementById("modeSummaryCount"),
 
@@ -113,6 +117,7 @@ let state = {
   homeLesson: null, // いまホーム画面を開いているレッスン
   lesson: null,
   mode: "normal", // "normal" | "review"（ふくしゅうモードかどうかで戻り先などが変わる）
+  modeKey: null, // "vocab" | "grammar"（王冠判定・達成記録に使う）
   modeQuestions: null, // このモードで出題する問題（元の配列。retry時の再利用に使う）
   queue: [], // まだ出題していない問題: {uid, question, isRetry}
   current: null, // いま表示している問題
@@ -229,7 +234,9 @@ els.switchStudentButton.addEventListener("click", () => {
  */
 
 const LEVEL_XP_STEP = 200; // このXPごとにレベルが1つ上がる
-let currentProgress = null; // { totalXP, mistakes: [{sig, lessonId, lessonTitle, type, question}] }
+// GAME_MODES: 「すべてのゲーム」を判定するときに数えるモード（ようてん整理はクイズではないので含めない）
+const GAME_MODES = ["vocab", "grammar", "conversation"];
+let currentProgress = null; // { totalXP, mistakes: [...], mastery: { [lessonId]: {vocab,grammar,conversation} } }
 
 function progressKey(studentId) {
   return "nihongo_quiz_progress_" + studentId;
@@ -240,10 +247,13 @@ function loadProgress(studentId) {
     const raw = localStorage.getItem(progressKey(studentId));
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (parsed && Array.isArray(parsed.mistakes)) return parsed;
+      if (parsed && Array.isArray(parsed.mistakes)) {
+        if (!parsed.mastery) parsed.mastery = {};
+        return parsed;
+      }
     }
   } catch (e) {}
-  return { totalXP: 0, mistakes: [] };
+  return { totalXP: 0, mistakes: [], mastery: {} };
 }
 
 function saveProgress() {
@@ -282,6 +292,26 @@ function removeMistakeBySig(sig) {
   if (!currentProgress) return;
   currentProgress.mistakes = currentProgress.mistakes.filter((m) => m.sig !== sig);
   saveProgress();
+}
+
+// そのレッスンのそのモードで満点をとったら王冠がつく（ふくしゅうモードでは付けない —
+// ふくしゅうは複数レッスン混合のプールなので、1レッスンの達成としては数えない）
+function markMastery(lessonId, modeKey) {
+  if (!currentProgress || !lessonId || !modeKey) return;
+  if (!currentProgress.mastery) currentProgress.mastery = {};
+  if (!currentProgress.mastery[lessonId]) currentProgress.mastery[lessonId] = {};
+  if (currentProgress.mastery[lessonId][modeKey]) return;
+  currentProgress.mastery[lessonId][modeKey] = true;
+  saveProgress();
+}
+
+function getLessonMastery(lessonId) {
+  return (currentProgress && currentProgress.mastery && currentProgress.mastery[lessonId]) || {};
+}
+
+function isLessonFullyMastered(lessonId) {
+  const m = getLessonMastery(lessonId);
+  return GAME_MODES.every((mode) => m[mode]);
 }
 
 /* ---------------- レッスン選択 ---------------- */
@@ -326,11 +356,12 @@ function renderLessonSelectScreen() {
   }
 
   visibleLessons.forEach((lesson) => {
+    const crown = isLessonFullyMastered(lesson.id) ? '<span class="lesson-card-crown">👑</span>' : "";
     const card = document.createElement("div");
     card.className = "lesson-card";
     card.innerHTML = `
       <div class="lesson-card-info">
-        <h3>${lesson.title}</h3>
+        <h3>${lesson.title}${crown}</h3>
         <p>${lesson.questions.length}問${lesson.conversation ? " ・ かいわあり" : ""}</p>
       </div>
       <div class="lesson-start-button">ひらく ›</div>
@@ -365,6 +396,12 @@ function openHome(lesson) {
   els.modeSummaryButton.disabled = !hasSummary;
   els.modeSummaryButton.classList.toggle("mode-disabled", !hasSummary);
 
+  const mastery = getLessonMastery(lesson.id);
+  els.modeVocabCrown.classList.toggle("hidden", !mastery.vocab);
+  els.modeGrammarCrown.classList.toggle("hidden", !mastery.grammar);
+  els.modeConversationCrown.classList.toggle("hidden", !mastery.conversation);
+  els.homeLessonCrown.classList.toggle("hidden", !isLessonFullyMastered(lesson.id));
+
   showScreen("home");
 }
 
@@ -393,12 +430,12 @@ els.summaryBackButton.addEventListener("click", () => showScreen("home"));
 
 els.modeVocabButton.addEventListener("click", () => {
   const questions = state.homeLesson.questions.filter((q) => q.type === "vocab");
-  startLesson(state.homeLesson, questions);
+  startLesson(state.homeLesson, questions, "vocab");
 });
 
 els.modeGrammarButton.addEventListener("click", () => {
   const questions = state.homeLesson.questions.filter((q) => GRAMMAR_TYPES.includes(q.type));
-  startLesson(state.homeLesson, questions);
+  startLesson(state.homeLesson, questions, "grammar");
 });
 
 els.modeConversationButton.addEventListener("click", () => {
@@ -407,11 +444,12 @@ els.modeConversationButton.addEventListener("click", () => {
 
 /* ---------------- クイズ（たんご・ぶんぽう共通） ---------------- */
 
-function startLesson(lesson, questions) {
+function startLesson(lesson, questions, modeKey) {
   const wrapped = questions.map((q, i) => ({ uid: i, question: q, isRetry: false }));
 
   state.lesson = lesson;
   state.mode = "normal";
+  state.modeKey = modeKey || state.modeKey;
   state.modeQuestions = questions;
   state.queue = shuffle(wrapped);
   state.current = null;
@@ -734,9 +772,13 @@ function finishLesson() {
   els.resultBestStreak.textContent = state.bestStreak;
   els.resultRedeemed.textContent = state.redeemedCount;
 
+  if (pct === 100 && state.mode === "normal") {
+    markMastery(state.lesson.id, state.modeKey);
+  }
+
   if (pct === 100) {
     els.resultEmoji.textContent = "🏆";
-    els.resultMessage.textContent = "パーフェクト！かんぺきだね！";
+    els.resultMessage.textContent = state.mode === "normal" ? "パーフェクト！👑 王冠げっと！" : "パーフェクト！かんぺきだね！";
   } else if (pct >= 80) {
     els.resultEmoji.textContent = "🎉";
     els.resultMessage.textContent = "すごい！よくできました！";
@@ -782,7 +824,7 @@ els.backToHomeButton.addEventListener("click", () => {
     renderLessonSelectScreen();
     showScreen("select");
   } else {
-    showScreen("home");
+    openHome(state.homeLesson);
   }
 });
 
@@ -954,8 +996,9 @@ function finishConversation() {
   els.convSummaryScore.textContent = `${correct} / ${total} せいかい`;
 
   if (pct === 100) {
+    markMastery(convState.lesson.id, "conversation");
     els.convSummaryEmoji.textContent = "🏆";
-    els.convSummaryMessage.textContent = "パーフェクト！かいわがバッチリだね！";
+    els.convSummaryMessage.textContent = "パーフェクト！👑 王冠げっと！";
   } else if (pct >= 80) {
     els.convSummaryEmoji.textContent = "🎉";
     els.convSummaryMessage.textContent = "すごい！じょうずに質問できたね！";
@@ -990,12 +1033,12 @@ els.convRetryButton.addEventListener("click", () => {
 });
 
 els.convHomeButton.addEventListener("click", () => {
-  showScreen("home");
+  openHome(state.homeLesson);
 });
 
 els.convQuitButton.addEventListener("click", () => {
   if (confirm("れんしゅうをやめてホームにもどりますか?")) {
-    showScreen("home");
+    openHome(state.homeLesson);
   }
 });
 
