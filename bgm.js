@@ -12,7 +12,8 @@ const ChiptuneBGM = (() => {
   let ctx = null;
   let masterGain = null;
   let isPlaying = false;
-  let muted = localStorage.getItem("nihongo_quiz_bgm_muted") === "1";
+  // 初期状態はミュート（オプトイン）。明示的に🔊を押して解除した場合だけ鳴る。
+  let muted = localStorage.getItem("nihongo_quiz_bgm_muted") !== "0";
   let nextNoteTime = 0;
   let currentStep = 0;
   let timerId = null;
