@@ -12,6 +12,6 @@
  */
 
 const STUDENTS = [
-  { id: "student1", name: "たなか", unlockedUpTo: 5 },
-  { id: "student2", name: "さとう", unlockedUpTo: 5 },
+  { id: "student1", name: "たなか", unlockedUpTo: 35 },
+  { id: "student2", name: "さとう", unlockedUpTo: 35 },
 ];
