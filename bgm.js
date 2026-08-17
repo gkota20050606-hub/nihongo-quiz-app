@@ -87,6 +87,22 @@ const ChiptuneBGM = (() => {
     scheduler();
   }
 
+  // 画面から離れた／閉じたときに音を止める。スケジューラを完全に止めて
+  // AudioContextもsuspendするので、ミュートと違って本当に鳴らなくなる。
+  function pause() {
+    if (timerId) {
+      clearTimeout(timerId);
+      timerId = null;
+    }
+    isPlaying = false;
+    if (ctx && ctx.state === "running") ctx.suspend();
+  }
+
+  function resume() {
+    if (muted || isPlaying) return;
+    start();
+  }
+
   function toggleMute() {
     muted = !muted;
     localStorage.setItem("nihongo_quiz_bgm_muted", muted ? "1" : "0");
@@ -99,6 +115,18 @@ const ChiptuneBGM = (() => {
   function isMuted() {
     return muted;
   }
+
+  // タブが非表示になった瞬間に止め、戻ってきたら（ミュートしていなければ）再開する。
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      pause();
+    } else {
+      resume();
+    }
+  });
+
+  // タブを閉じる／リロードするときも確実に止める。
+  window.addEventListener("pagehide", pause);
 
   return { start, toggleMute, isMuted };
 })();
