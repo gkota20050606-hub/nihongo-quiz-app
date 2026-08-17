@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日本語れんしゅう</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ============================================
+       画面1: レッスン選択
+  ============================================= -->
+  <section id="screen-select" class="screen">
+    <header class="app-header">
+      <h1>日本語れんしゅう</h1>
+      <p class="app-sub">練習したいレッスンをえらんでね</p>
+    </header>
+    <div id="lesson-list" class="lesson-list"></div>
+  </section>
+
+  <!-- ============================================
+       画面2: クイズ
+  ============================================= -->
+  <section id="screen-quiz" class="screen hidden">
+    <div class="quiz-top">
+      <button id="quitButton" class="quit-button" aria-label="やめる">✕</button>
+      <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+      <div id="streakBadge" class="streak-badge hidden">🔥<span id="streakCount">0</span></div>
+      <div id="scoreBadge" class="score-badge">0</div>
+    </div>
+
+    <div class="quiz-body">
+      <div id="questionTypeBadge" class="question-type-badge"></div>
+      <div id="retryRibbon" class="retry-ribbon hidden">⚡ さいちょうせん！せいかいで2倍ポイント</div>
+      <div id="questionArea" class="question-area"></div>
+      <div id="optionsArea" class="options-area"></div>
+    </div>
+
+    <div id="feedbackBanner" class="feedback-banner hidden">
+      <div id="feedbackText" class="feedback-text"></div>
+      <div id="feedbackBonus" class="feedback-bonus"></div>
+      <div id="feedbackTranslation" class="feedback-translation"></div>
+      <button id="nextButton" class="next-button">つぎへ →</button>
+    </div>
+  </section>
+
+  <!-- ============================================
+       画面3: 結果
+  ============================================= -->
+  <section id="screen-result" class="screen hidden">
+    <div class="result-card">
+      <div id="resultEmoji" class="result-emoji">🎉</div>
+      <h2 id="resultScoreText" class="result-score">0 / 0 せいかい</h2>
+      <p id="resultMessage" class="result-message"></p>
+      <div class="result-stats">
+        <div class="result-stat">
+          <div id="resultPoints" class="result-stat-value">0</div>
+          <div class="result-stat-label">ポイント</div>
+        </div>
+        <div class="result-stat">
+          <div id="resultBestStreak" class="result-stat-value">0</div>
+          <div class="result-stat-label">さいこうれんぞく</div>
+        </div>
+        <div class="result-stat">
+          <div id="resultRedeemed" class="result-stat-value">0</div>
+          <div class="result-stat-label">克服した問題</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="reviewSection" class="review-section hidden">
+      <h3>まちがえた問題</h3>
+      <div id="reviewList" class="review-list"></div>
+    </div>
+
+    <div class="result-actions">
+      <button id="retryButton" class="primary-button">もういちど</button>
+      <button id="backToSelectButton" class="secondary-button">レッスンをえらびなおす</button>
+    </div>
+  </section>
+
+</div>
+
+<audio id="sfxHit" src="sounds/hit.wav" preload="auto"></audio>
+<audio id="sfxMiss" src="sounds/miss.wav" preload="auto"></audio>
+
+<script src="lessons.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
