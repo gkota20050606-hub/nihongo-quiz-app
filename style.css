@@ -1,27 +1,26 @@
 :root {
-  --bg-deep: #0a0e1c;
-  --card: #1d2b53;
-  --card-alt: #29305a;
-  --ink: #fff1e8;
-  --ink-soft: #a6b3d1;
-  --primary: #ffec27;
-  --primary-dark: #c9a227;
-  --accent: #29adff;
-  --good: #38b764;
-  --good-dark: #1e7e42;
-  --bad: #ff004d;
-  --bad-dark: #a3002f;
-  --track: #3a4466;
-  --particle-color: #ffa300;
-  --reorder-color: #29adff;
-  --vocab-color: #38b764;
-  --conversation-color: #ff77a8;
-  --summary-color: #29adff;
-  --review-color: #ffec27;
-  --border-color: #fff1e8;
-  --radius: 0px;
-  --shadow: 4px 4px 0 rgba(0, 0, 0, 0.55);
-  --pixel-border: 3px solid var(--border-color);
+  --bg-deep: #f6f7f9;
+  --card: #ffffff;
+  --card-alt: #f1f3f7;
+  --ink: #1f2430;
+  --ink-soft: #767e8c;
+  --primary: #4f46e5;
+  --primary-dark: #3f37c9;
+  --accent: #2563eb;
+  --good: #16a34a;
+  --bad: #dc2626;
+  --track: #e6e8ee;
+  --particle-color: #d97706;
+  --reorder-color: #2563eb;
+  --vocab-color: #059669;
+  --conversation-color: #db2777;
+  --summary-color: #4f46e5;
+  --review-color: #d97706;
+  --border-color: #e6e8ee;
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 6px 16px rgba(16, 24, 40, 0.06);
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+  --pixel-border: 1px solid var(--border-color);
 }
 
 * { box-sizing: border-box; }
@@ -31,32 +30,13 @@ html, body {
   padding: 0;
   background: var(--bg-deep);
   color: var(--ink);
-  font-family: "DotGothic16", "Hiragino Sans", "Yu Gothic", monospace, sans-serif;
+  font-family: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", "Segoe UI", sans-serif;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
   position: relative;
-  background-image:
-    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    radial-gradient(circle at 65% 75%, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 26px 26px, 34px 34px;
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.2) 0px,
-    rgba(0, 0, 0, 0.2) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-  pointer-events: none;
-  z-index: 999;
-  opacity: 0.25;
 }
 
 #app {
@@ -72,84 +52,95 @@ body::after {
 
 .hidden { display: none !important; }
 
-/* ---------- 共通 ---------- */
+/* ---------- Shared ---------- */
 
 .app-header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .app-header h1 {
-  font-size: 22px;
-  margin: 0 0 8px;
-  color: var(--primary);
-  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6);
-  letter-spacing: 0.05em;
+  font-size: 21px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
 }
 
 .app-sub {
   margin: 0;
   color: var(--ink-soft);
-  font-size: 12px;
+  font-size: 13px;
+}
+
+.apology-note {
+  margin: 0 0 8px;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 700;
 }
 
 button {
   font-family: inherit;
   cursor: pointer;
   border: none;
+  background: none;
 }
 
 .bgm-toggle {
   position: fixed;
-  top: 10px;
-  right: 10px;
+  top: 14px;
+  right: 14px;
   z-index: 60;
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
   background: var(--card);
-  border: 2px solid var(--border-color);
+  border: 1px solid var(--border-color);
   color: var(--ink);
-  font-size: 18px;
-  box-shadow: var(--shadow);
+  font-size: 15px;
+  box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .bgm-toggle:active {
-  transform: translate(2px, 2px);
-  box-shadow: none;
+  transform: scale(0.94);
 }
 
-/* ---------- レッスン選択画面 ---------- */
+/* ---------- Lesson select screen ---------- */
 
 .lesson-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
 }
 
 .lesson-card {
   background: var(--card);
   border: var(--pixel-border);
-  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
   padding: 16px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   cursor: pointer;
-  transition: transform 0.08s steps(2);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 .lesson-card:active {
-  transform: translate(3px, 3px);
-  box-shadow: none;
+  transform: scale(0.985);
+  box-shadow: var(--shadow-sm);
 }
 
 .lesson-card-info h3 {
   margin: 0 0 4px;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 700;
   color: var(--ink);
 }
 
@@ -160,37 +151,37 @@ button {
 }
 
 .lesson-start-button {
-  background: var(--primary);
-  color: var(--bg-deep);
-  font-weight: 700;
+  background: var(--card-alt);
+  color: var(--ink);
+  font-weight: 600;
   font-size: 12px;
   padding: 8px 14px;
-  border: 2px solid var(--border-color);
+  border-radius: 999px;
   white-space: nowrap;
 }
 
 .level-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 12px;
 }
 
 .level-badge {
   background: var(--primary);
-  color: var(--bg-deep);
+  color: #fff;
   font-weight: 700;
   font-size: 11px;
-  padding: 4px 8px;
-  border: 2px solid var(--border-color);
+  padding: 5px 10px;
+  border-radius: 999px;
   white-space: nowrap;
 }
 
 .level-bar {
   flex: 1;
-  height: 12px;
+  height: 8px;
   background: var(--track);
-  border: 2px solid var(--border-color);
+  border-radius: 999px;
   overflow: hidden;
 }
 
@@ -198,12 +189,13 @@ button {
   height: 100%;
   width: 0%;
   background: var(--primary);
-  transition: width 0.35s steps(10);
+  border-radius: 999px;
+  transition: width 0.4s ease;
 }
 
 .level-xp-text {
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--ink-soft);
   white-space: nowrap;
 }
@@ -211,15 +203,15 @@ button {
 .student-progress {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 10px;
+  margin-bottom: 18px;
 }
 
 .student-progress-bar {
   flex: 1;
-  height: 12px;
+  height: 8px;
   background: var(--track);
-  border: 2px solid var(--border-color);
+  border-radius: 999px;
   overflow: hidden;
 }
 
@@ -227,12 +219,13 @@ button {
   height: 100%;
   width: 0%;
   background: var(--accent);
-  transition: width 0.35s steps(10);
+  border-radius: 999px;
+  transition: width 0.4s ease;
 }
 
 .student-progress-text {
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--ink-soft);
   white-space: nowrap;
 }
@@ -242,25 +235,26 @@ button {
   text-align: center;
 }
 
-/* ---------- レッスンホーム（モードえらび） ---------- */
+/* ---------- Lesson home (mode select) ---------- */
 
 .home-top {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .home-lesson-title {
   margin: 0;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 700;
   color: var(--ink);
 }
 
 .mode-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
 }
 
 .mode-card {
@@ -269,18 +263,17 @@ button {
   gap: 12px;
   background: var(--card);
   border: var(--pixel-border);
-  border-left-width: 8px;
-  border-left-color: var(--track);
-  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  border-left: 4px solid var(--track);
+  box-shadow: var(--shadow-sm);
   padding: 14px 16px;
   text-align: left;
   width: 100%;
-  transition: transform 0.08s steps(2);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 .mode-card:active {
-  transform: translate(3px, 3px);
-  box-shadow: none;
+  transform: scale(0.985);
 }
 
 .mode-card.mode-vocab { border-left-color: var(--vocab-color); }
@@ -290,12 +283,12 @@ button {
 .mode-card.mode-review { border-left-color: var(--review-color); margin-bottom: 16px; }
 
 .mode-card.mode-disabled {
-  opacity: 0.35;
+  opacity: 0.4;
   pointer-events: none;
 }
 
 .mode-icon {
-  font-size: 26px;
+  font-size: 24px;
   flex-shrink: 0;
 }
 
@@ -308,30 +301,28 @@ button {
 }
 
 .mode-count {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--ink-soft);
-  margin-top: 4px;
+  margin-top: 3px;
 }
 
 .mode-arrow {
-  font-size: 18px;
-  color: var(--primary);
+  font-size: 16px;
+  color: var(--ink-soft);
 }
 
 .crown-badge {
   font-size: 13px;
-  filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.5));
 }
 
 .crown-badge-lg {
-  font-size: 20px;
+  font-size: 18px;
   margin-left: 4px;
 }
 
 .lesson-card-crown {
-  font-size: 15px;
+  font-size: 14px;
   margin-left: 6px;
-  filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.5));
 }
 
 .empty-state {
@@ -339,13 +330,14 @@ button {
   color: var(--ink-soft);
   background: var(--card);
   border: var(--pixel-border);
+  border-radius: var(--radius);
   padding: 26px 18px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
   line-height: 1.7;
   font-size: 12px;
 }
 
-/* ---------- クイズ画面 ---------- */
+/* ---------- Quiz screen ---------- */
 
 #screen-quiz {
   display: flex;
@@ -362,22 +354,23 @@ button {
 
 .quit-button {
   background: var(--card);
-  color: var(--ink);
-  font-size: 16px;
+  color: var(--ink-soft);
+  font-size: 15px;
   width: 32px;
   height: 32px;
-  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
 }
 
 .quit-button:active {
-  transform: translate(2px, 2px);
+  transform: scale(0.94);
 }
 
 .progress-bar {
   flex: 1;
-  height: 14px;
+  height: 8px;
   background: var(--track);
-  border: 2px solid var(--border-color);
+  border-radius: 999px;
   overflow: hidden;
 }
 
@@ -385,50 +378,49 @@ button {
   height: 100%;
   width: 0%;
   background: var(--accent);
-  transition: width 0.35s steps(10);
+  border-radius: 999px;
+  transition: width 0.4s ease;
 }
 
 .score-badge {
-  background: var(--primary);
-  color: var(--bg-deep);
+  background: var(--card-alt);
+  color: var(--ink);
   font-weight: 700;
-  font-size: 11px;
+  font-size: 12px;
   min-width: 28px;
   text-align: center;
-  padding: 4px 8px;
-  border: 2px solid var(--border-color);
+  padding: 5px 10px;
+  border-radius: 999px;
 }
 
 .streak-badge {
-  background: var(--bad);
-  color: var(--ink);
+  background: #fef2f2;
+  color: var(--bad);
   font-weight: 700;
-  font-size: 11px;
-  padding: 4px 8px;
-  border: 2px solid var(--border-color);
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 999px;
   display: flex;
   align-items: center;
   gap: 2px;
-  animation: streakPulse 0.6s steps(6);
+  animation: streakPulse 0.3s ease;
 }
 
 @keyframes streakPulse {
-  0% { transform: scale(0.6); opacity: 0; }
-  60% { transform: scale(1.15); }
+  0% { transform: scale(0.7); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
 }
 
 .retry-ribbon {
   align-self: center;
-  background: var(--primary);
-  color: var(--bg-deep);
+  background: #fff7ed;
+  color: var(--particle-color);
   font-weight: 700;
   font-size: 11px;
-  padding: 6px 14px;
-  border: 2px solid var(--border-color);
+  padding: 7px 14px;
+  border-radius: 999px;
   margin-bottom: 14px;
-  box-shadow: var(--shadow);
-  animation: streakPulse 0.4s steps(4);
+  animation: streakPulse 0.25s ease;
 }
 
 .quiz-body {
@@ -441,10 +433,10 @@ button {
   align-self: center;
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--bg-deep);
-  padding: 4px 12px;
-  border: 2px solid var(--border-color);
+  letter-spacing: 0.03em;
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 999px;
   margin-bottom: 16px;
 }
 
@@ -456,8 +448,9 @@ button {
   position: relative;
   background: var(--card);
   border: var(--pixel-border);
+  border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 26px 18px;
+  padding: 30px 20px;
   text-align: center;
   margin-bottom: 20px;
   overflow: visible;
@@ -472,7 +465,7 @@ button {
   white-space: nowrap;
   pointer-events: none;
   z-index: 30;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
   animation: emojiPopUp 1s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
 }
 
@@ -504,13 +497,13 @@ button {
   display: inline-block;
   min-width: 44px;
   padding: 0 8px;
-  border-bottom: 4px solid var(--particle-color);
+  border-bottom: 3px solid var(--particle-color);
   color: var(--particle-color);
   font-weight: 700;
 }
 
 .vocab-prompt {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 700;
   color: var(--ink);
 }
@@ -538,21 +531,22 @@ button {
 .reorder-slot {
   min-width: 56px;
   height: 44px;
-  border: 2px dashed var(--track);
+  border: 1.5px dashed var(--track);
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   padding: 0 8px;
-  background: var(--bg-deep);
+  background: var(--card-alt);
   color: var(--ink);
 }
 
 .reorder-slot.filled {
   border-style: solid;
   border-color: var(--reorder-color);
-  background: var(--card-alt);
+  background: #eff4ff;
   cursor: pointer;
   color: var(--reorder-color);
 }
@@ -560,7 +554,7 @@ button {
 .options-area {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 10px;
 }
 
 .options-area.reorder-bank {
@@ -573,18 +567,18 @@ button {
 
 .option-button {
   background: var(--card);
-  border: 2px solid var(--border-color);
+  border: var(--pixel-border);
+  border-radius: 12px;
   padding: 14px 10px;
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 600;
   color: var(--ink);
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
-  transition: transform 0.08s steps(2);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
 }
 
 .option-button:active {
-  transform: translate(3px, 3px);
-  box-shadow: none;
+  transform: scale(0.97);
 }
 
 .option-button.word-chip {
@@ -593,19 +587,19 @@ button {
 }
 
 .option-button.correct {
-  background: var(--good);
-  border-color: var(--good-dark);
-  color: var(--bg-deep);
+  background: #f0fdf4;
+  border-color: var(--good);
+  color: var(--good);
 }
 
 .option-button.wrong {
-  background: var(--bad);
-  border-color: var(--bad-dark);
-  color: var(--ink);
+  background: #fef2f2;
+  border-color: var(--bad);
+  color: var(--bad);
 }
 
 .option-button.disabled-chip {
-  opacity: 0.3;
+  opacity: 0.35;
   pointer-events: none;
 }
 
@@ -613,16 +607,16 @@ button {
   pointer-events: none;
 }
 
-/* ---------- フィードバック ---------- */
+/* ---------- Feedback ---------- */
 
 .feedback-banner {
   position: sticky;
   bottom: 0;
-  border-top: 3px solid var(--border-color);
+  border-top: 1px solid var(--border-color);
   padding: 16px 20px;
   margin: 16px -16px -32px;
-  box-shadow: 0 -6px 0 rgba(0, 0, 0, 0.3);
-  animation: slideUp 0.2s steps(4);
+  box-shadow: 0 -4px 16px rgba(16, 24, 40, 0.06);
+  animation: slideUp 0.2s ease;
 }
 
 @keyframes slideUp {
@@ -630,15 +624,17 @@ button {
   to { transform: translateY(0); opacity: 1; }
 }
 
-.feedback-banner.is-correct { background: var(--good-dark); }
-.feedback-banner.is-wrong { background: var(--bad-dark); }
+.feedback-banner.is-correct { background: #f0fdf4; }
+.feedback-banner.is-wrong { background: #fef2f2; }
 
 .feedback-text {
   font-weight: 700;
   font-size: 15px;
   margin-bottom: 2px;
-  color: var(--ink);
 }
+
+.feedback-banner.is-correct .feedback-text { color: var(--good); }
+.feedback-banner.is-wrong .feedback-text { color: var(--bad); }
 
 .feedback-bonus {
   font-size: 11px;
@@ -659,11 +655,11 @@ button {
   padding: 14px;
   font-size: 14px;
   font-weight: 700;
-  border: 2px solid var(--border-color);
+  border-radius: 12px;
 }
 
-.feedback-banner.is-correct .next-button { background: var(--good); color: var(--bg-deep); }
-.feedback-banner.is-wrong .next-button { background: var(--bad); color: var(--ink); }
+.feedback-banner.is-correct .next-button { background: var(--good); color: #fff; }
+.feedback-banner.is-wrong .next-button { background: var(--bad); color: #fff; }
 
 /* shake animation for wrong answers */
 .shake { animation: shake 0.35s ease; }
@@ -678,11 +674,11 @@ button {
 .pop { animation: pop 0.3s ease; }
 @keyframes pop {
   0% { transform: scale(1); }
-  40% { transform: scale(1.08); }
+  40% { transform: scale(1.06); }
   100% { transform: scale(1); }
 }
 
-/* ---------- 結果画面 ---------- */
+/* ---------- Result screen ---------- */
 
 #screen-result {
   display: flex;
@@ -693,21 +689,23 @@ button {
 .result-card {
   background: var(--card);
   border: var(--pixel-border);
+  border-radius: var(--radius);
   box-shadow: var(--shadow);
   text-align: center;
-  padding: 30px 18px;
+  padding: 32px 18px;
   margin-bottom: 18px;
 }
 
 .result-emoji {
-  font-size: 48px;
+  font-size: 44px;
   margin-bottom: 10px;
 }
 
 .result-score {
   margin: 0 0 6px;
-  font-size: 18px;
-  color: var(--primary);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
 }
 
 .result-message {
@@ -720,16 +718,16 @@ button {
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 2px solid var(--track);
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-color);
 }
 
 .result-stat {
   flex: 1;
-  background: var(--bg-deep);
-  border: 2px solid var(--track);
-  padding: 8px 4px;
+  background: var(--card-alt);
+  border-radius: 10px;
+  padding: 10px 4px;
 }
 
 .result-stat-value {
@@ -750,6 +748,7 @@ button {
 
 .review-section h3 {
   font-size: 13px;
+  font-weight: 700;
   color: var(--ink-soft);
   margin: 0 0 10px 2px;
 }
@@ -762,18 +761,20 @@ button {
 
 .review-item {
   background: var(--card);
-  border: 2px solid var(--border-color);
-  border-left: 8px solid var(--bad);
+  border: var(--pixel-border);
+  border-radius: 12px;
+  border-left: 4px solid var(--bad);
   padding: 12px 14px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
 }
 
 .review-item-type {
   font-size: 9px;
   font-weight: 700;
   color: var(--ink-soft);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   margin-bottom: 4px;
+  text-transform: uppercase;
 }
 
 .review-item-q {
@@ -804,49 +805,50 @@ button {
 
 .primary-button {
   background: var(--primary);
-  color: var(--bg-deep);
+  color: #fff;
   font-weight: 700;
   font-size: 14px;
   padding: 15px;
-  border: 2px solid var(--border-color);
-  box-shadow: var(--shadow);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.1s ease;
 }
 
 .primary-button:active {
-  transform: translate(3px, 3px);
-  box-shadow: none;
+  transform: scale(0.98);
 }
 
 .secondary-button {
   background: transparent;
   color: var(--ink-soft);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 12px;
   padding: 10px;
-  border: 2px solid transparent;
+  border-radius: 12px;
 }
 
-/* ---------- ようてん整理 ---------- */
+/* ---------- Key points ---------- */
 
 .summary-content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .summary-point {
   background: var(--card);
-  border: 2px solid var(--border-color);
-  border-left: 8px solid var(--summary-color);
-  box-shadow: var(--shadow);
+  border: var(--pixel-border);
+  border-radius: 12px;
+  border-left: 4px solid var(--summary-color);
+  box-shadow: var(--shadow-sm);
   padding: 14px 16px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.7;
   color: var(--ink);
 }
 
-/* ---------- かいわテスト ---------- */
+/* ---------- Conversation test ---------- */
 
 #screen-conversation {
   display: flex;
@@ -857,8 +859,9 @@ button {
 .conv-prompt-card {
   background: var(--card);
   border: var(--pixel-border);
+  border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 24px 18px;
+  padding: 26px 18px;
   text-align: center;
   margin-bottom: 18px;
 }
@@ -894,8 +897,9 @@ button {
   font-weight: 700;
   text-align: center;
   color: var(--ink);
-  background: var(--bg-deep);
-  border: 2px solid var(--border-color);
+  background: var(--card);
+  border: var(--pixel-border);
+  border-radius: 12px;
 }
 
 .conv-text-input:focus {
@@ -907,8 +911,9 @@ button {
   margin-top: 18px;
   background: var(--card);
   border: var(--pixel-border);
+  border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 20px 18px;
+  padding: 22px 18px;
   text-align: center;
 }
 
@@ -923,10 +928,10 @@ button {
   display: inline-block;
   background: var(--card-alt);
   color: var(--ink);
-  border: 2px solid var(--border-color);
+  border-radius: 14px;
   padding: 10px 14px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 14px;
 }
 

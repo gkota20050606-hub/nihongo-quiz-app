@@ -1,4 +1,4 @@
-/*
+﻿/*
  * れんしゅう問題データ
  * ------------------------------------------------------------
  * 新しいレッスンを追加するときは、この配列 LESSONS に
@@ -60,7 +60,7 @@ const LESSONS = [
   {
     id: "self_intro",
     order: 1,
-    title: "第1回 自己紹介",
+    title: "Lesson 1: Self-Introduction",
     questions: [
       {
         type: "reorder",
@@ -106,6 +106,66 @@ const LESSONS = [
         prompt: "かいしゃいん",
         answer: "company employee",
         options: ["company employee", "student", "teacher", "name"]
+      },
+      {
+        type: "vocab",
+        prompt: "にほんじん",
+        answer: "Japanese person",
+        options: ["Japanese person", "American person", "Chinese person", "Korean person"]
+      },
+      {
+        type: "vocab",
+        prompt: "アメリカじん",
+        answer: "American person",
+        options: ["American person", "Japanese person", "Chinese person", "Korean person"]
+      },
+      {
+        type: "vocab",
+        prompt: "ちゅうごくじん",
+        answer: "Chinese person",
+        options: ["Chinese person", "Japanese person", "American person", "Korean person"]
+      },
+      {
+        type: "vocab",
+        prompt: "いしゃ",
+        answer: "doctor",
+        options: ["doctor", "teacher", "student", "company employee"]
+      },
+      {
+        type: "vocab",
+        prompt: "かいしゃ",
+        answer: "company",
+        options: ["company", "university", "school", "job"]
+      },
+      {
+        type: "vocab",
+        prompt: "だいがく",
+        answer: "university",
+        options: ["university", "high school", "company", "job"]
+      },
+      {
+        type: "vocab",
+        prompt: "だいがくせい",
+        answer: "university student",
+        options: ["university student", "high school student", "teacher", "doctor"]
+      },
+      {
+        type: "vocab",
+        prompt: "こうこうせい",
+        answer: "high school student",
+        options: ["high school student", "university student", "teacher", "student"]
+      },
+      {
+        type: "vocab",
+        prompt: "しごと",
+        answer: "job",
+        options: ["job", "name", "student", "company"]
+      },
+      {
+        type: "vocab",
+        prompt: "とし",
+        answer: "year",
+        options: ["year", "job", "university", "name"]
       }
     ],
     conversation: {
@@ -136,17 +196,17 @@ const LESSONS = [
     },
     summary: {
       points: [
-        "自分のことを話すときは「わたしは○○です」の形を使う",
-        "名前・職業・年齢もすべて「です」で表せる（わたしはがくせいです／じゅうはっさいです）",
-        "相手に聞くときは「あなたは○○ですか」",
-        "疑問文は文末に「か」をつけるだけでよい（語順は変えない）"
+        "When talking about yourself, use the pattern “わたしは○○です” (I am ___).",
+        "Names, occupations, and age can all be expressed with “です” (e.g. わたしはがくせいです “I am a student” / じゅうはっさいです “I am 18 years old”).",
+        "To ask someone else, use “あなたは○○ですか” (Are you ___?).",
+        "To make a question, just add “か” to the end of the sentence — the word order doesn't change."
       ]
     }
   },
   {
     id: "likes_dislikes",
     order: 2,
-    title: "第2回 好き嫌い",
+    title: "Lesson 2: Likes and Dislikes",
     questions: [
       {
         type: "particle",
@@ -216,6 +276,60 @@ const LESSONS = [
         prompt: "りょうり",
         answer: "cooking",
         options: ["cooking", "driving", "soccer", "coffee"]
+      },
+      {
+        type: "vocab",
+        prompt: "おんがく",
+        answer: "music",
+        options: ["music", "movie", "sports", "song"]
+      },
+      {
+        type: "vocab",
+        prompt: "えいが",
+        answer: "movie",
+        options: ["movie", "music", "sports", "song"]
+      },
+      {
+        type: "vocab",
+        prompt: "スポーツ",
+        answer: "sports",
+        options: ["sports", "music", "movie", "dance"]
+      },
+      {
+        type: "vocab",
+        prompt: "うた",
+        answer: "song",
+        options: ["song", "music", "movie", "sports"]
+      },
+      {
+        type: "vocab",
+        prompt: "りょこう",
+        answer: "travel",
+        options: ["travel", "sports", "movie", "music"]
+      },
+      {
+        type: "vocab",
+        prompt: "どくしょ",
+        answer: "reading",
+        options: ["reading", "cooking", "driving", "travel"]
+      },
+      {
+        type: "vocab",
+        prompt: "うんてん",
+        answer: "driving",
+        options: ["driving", "cooking", "reading", "travel"]
+      },
+      {
+        type: "vocab",
+        prompt: "やきゅう",
+        answer: "baseball",
+        options: ["baseball", "tennis", "soccer", "sports"]
+      },
+      {
+        type: "vocab",
+        prompt: "テニス",
+        answer: "tennis",
+        options: ["tennis", "baseball", "soccer", "sports"]
       }
     ],
     conversation: {
@@ -246,17 +360,17 @@ const LESSONS = [
     },
     summary: {
       points: [
-        "好き・嫌い・得意・苦手は「が」を使う（例：すしがすきです）",
-        "英語のlikeは目的語をとるが、日本語は「を」ではなく「が」になる",
-        "とくい＝得意（じょうずにできる）、にがて＝苦手（うまくできない）",
-        "「なにがすきですか」で相手の好みを聞ける"
+        "Use “が” with すき (like), きらい (dislike), とくい (good at), and にがて (not good at) — e.g. すしがすきです “I like sushi.”",
+        "In English, “like” takes a direct object, but in Japanese the particle is “が”, not “を”.",
+        "とくい means “good at” (can do it well), and にがて means “not good at” (can't do it well).",
+        "You can ask about someone's preferences with “なにがすきですか” (What do you like?)."
       ]
     }
   },
   {
     id: "impression_adjectives",
     order: 3,
-    title: "第3回 感想形容詞",
+    title: "Lesson 3: Describing Things (Adjectives)",
     questions: [
       {
         type: "reorder",
@@ -307,6 +421,66 @@ const LESSONS = [
         prompt: "たかい",
         answer: "expensive",
         options: ["expensive", "convenient", "delicious", "pretty"]
+      },
+      {
+        type: "vocab",
+        prompt: "やすい",
+        answer: "cheap",
+        options: ["cheap", "expensive", "delicious", "convenient"]
+      },
+      {
+        type: "vocab",
+        prompt: "おもしろい",
+        answer: "interesting",
+        options: ["interesting", "boring", "difficult", "simple"]
+      },
+      {
+        type: "vocab",
+        prompt: "つまらない",
+        answer: "boring",
+        options: ["boring", "interesting", "fun", "pretty"]
+      },
+      {
+        type: "vocab",
+        prompt: "あたらしい",
+        answer: "new",
+        options: ["new", "old", "spacious", "narrow"]
+      },
+      {
+        type: "vocab",
+        prompt: "ふるい",
+        answer: "old",
+        options: ["old", "new", "spacious", "narrow"]
+      },
+      {
+        type: "vocab",
+        prompt: "にぎやか",
+        answer: "lively",
+        options: ["lively", "quiet", "boring", "simple"]
+      },
+      {
+        type: "vocab",
+        prompt: "ひろい",
+        answer: "spacious",
+        options: ["spacious", "narrow", "new", "old"]
+      },
+      {
+        type: "vocab",
+        prompt: "せまい",
+        answer: "narrow",
+        options: ["narrow", "spacious", "new", "old"]
+      },
+      {
+        type: "vocab",
+        prompt: "かんたん",
+        answer: "simple",
+        options: ["simple", "difficult", "interesting", "boring"]
+      },
+      {
+        type: "vocab",
+        prompt: "むずかしい",
+        answer: "difficult",
+        options: ["difficult", "simple", "interesting", "boring"]
       }
     ],
     conversation: {
@@ -337,17 +511,17 @@ const LESSONS = [
     },
     summary: {
       points: [
-        "感想を言うときは「これ／それ／あれは○○です」の形",
-        "これ＝話し手に近いもの、それ＝聞き手に近いもの、あれ＝どちらからも遠いもの",
-        "形容詞（きれい、べんり等）がそのまま「です」の前につく",
-        "疑問文は文末に「か」をつけるだけ"
+        "To give an impression or opinion, use the pattern “これ／それ／あれは○○です” (This/That/That over there is ___).",
+        "これ = something close to the speaker, それ = something close to the listener, あれ = something far from both.",
+        "Adjectives (like きれい “pretty” or べんり “convenient”) go directly before “です”.",
+        "To make a question, just add “か” to the end of the sentence."
       ]
     }
   },
   {
     id: "yes_no_questions",
     order: 4,
-    title: "第4回 疑問（Yes/No）",
+    title: "Lesson 4: Yes/No Questions",
     questions: [
       {
         type: "reorder",
@@ -393,6 +567,66 @@ const LESSONS = [
         prompt: "ほん",
         answer: "book",
         options: ["book", "bag", "yes", "no"]
+      },
+      {
+        type: "vocab",
+        prompt: "かばん",
+        answer: "bag",
+        options: ["bag", "book", "notebook", "pen"]
+      },
+      {
+        type: "vocab",
+        prompt: "ノート",
+        answer: "notebook",
+        options: ["notebook", "book", "pen", "newspaper"]
+      },
+      {
+        type: "vocab",
+        prompt: "ペン",
+        answer: "pen",
+        options: ["pen", "notebook", "bag", "umbrella"]
+      },
+      {
+        type: "vocab",
+        prompt: "とけい",
+        answer: "clock",
+        options: ["clock", "umbrella", "wallet", "magazine"]
+      },
+      {
+        type: "vocab",
+        prompt: "かさ",
+        answer: "umbrella",
+        options: ["umbrella", "clock", "wallet", "pen"]
+      },
+      {
+        type: "vocab",
+        prompt: "さいふ",
+        answer: "wallet",
+        options: ["wallet", "umbrella", "clock", "bag"]
+      },
+      {
+        type: "vocab",
+        prompt: "しんぶん",
+        answer: "newspaper",
+        options: ["newspaper", "magazine", "book", "notebook"]
+      },
+      {
+        type: "vocab",
+        prompt: "ざっし",
+        answer: "magazine",
+        options: ["magazine", "newspaper", "book", "notebook"]
+      },
+      {
+        type: "vocab",
+        prompt: "つくえ",
+        answer: "desk",
+        options: ["desk", "chair", "bag", "clock"]
+      },
+      {
+        type: "vocab",
+        prompt: "いす",
+        answer: "chair",
+        options: ["chair", "desk", "bag", "clock"]
       }
     ],
     conversation: {
@@ -423,17 +657,17 @@ const LESSONS = [
     },
     summary: {
       points: [
-        "Yes/Noの質問は文末に「か」をつけるだけで作れる",
-        "答えるときは「はい、そうです」「いいえ、ちがいます」が便利",
-        "「そうです」＝その通り、「ちがいます」＝違う、という意味",
-        "疑問文でも語順は変わらない（英語のように倒置しない）"
+        "You can make a yes/no question just by adding “か” to the end of the sentence.",
+        "When answering, “はい、そうです” (Yes, that's right) and “いいえ、ちがいます” (No, that's wrong) are handy.",
+        "“そうです” means “that's right,” and “ちがいます” means “that's not right / that's different.”",
+        "Word order doesn't change in questions either — unlike English, there's no inversion."
       ]
     }
   },
   {
     id: "negation",
     order: 5,
-    title: "第5回 否定",
+    title: "Lesson 5: Negation",
     questions: [
       {
         type: "reorder",
@@ -479,6 +713,54 @@ const LESSONS = [
         prompt: "むずかしい",
         answer: "difficult",
         options: ["difficult", "cheap", "hot", "cold"]
+      },
+      {
+        type: "vocab",
+        prompt: "あたたかい",
+        answer: "warm",
+        options: ["warm", "cool", "hot", "cold"]
+      },
+      {
+        type: "vocab",
+        prompt: "すずしい",
+        answer: "cool",
+        options: ["cool", "warm", "hot", "cold"]
+      },
+      {
+        type: "vocab",
+        prompt: "やさしい",
+        answer: "easy",
+        options: ["easy", "difficult", "busy", "strong"]
+      },
+      {
+        type: "vocab",
+        prompt: "いそがしい",
+        answer: "busy",
+        options: ["busy", "easy", "fast", "slow"]
+      },
+      {
+        type: "vocab",
+        prompt: "はやい",
+        answer: "fast",
+        options: ["fast", "slow", "busy", "strong"]
+      },
+      {
+        type: "vocab",
+        prompt: "おそい",
+        answer: "slow",
+        options: ["slow", "fast", "busy", "weak"]
+      },
+      {
+        type: "vocab",
+        prompt: "つよい",
+        answer: "strong",
+        options: ["strong", "weak", "fast", "slow"]
+      },
+      {
+        type: "vocab",
+        prompt: "よわい",
+        answer: "weak",
+        options: ["weak", "strong", "fast", "slow"]
       }
     ],
     conversation: {
@@ -509,17 +791,17 @@ const LESSONS = [
     },
     summary: {
       points: [
-        "い形容詞を否定するときは「い」を「くない」に変える（たかい→たかくない）",
-        "「たかくないです」は「高くありません」と同じ意味の丁寧な言い方",
-        "な形容詞・名詞の否定は「じゃないです」（例：がくせいじゃないです）※これは次のレッスンで扱う",
-        "「くない」の後ろに「です」をつけると丁寧になる"
+        "To make an i-adjective negative, change the final “い” to “くない” (たかい → たかくない, “expensive” → “not expensive”).",
+        "“たかくないです” is a polite way of saying the same thing as “高くありません” (is not expensive).",
+        "Na-adjectives and nouns are negated with “じゃないです” (e.g. がくせいじゃないです “is not a student”) — this will be covered in the next lesson.",
+        "Adding “です” after “くない” makes it polite."
       ]
     }
   },
   {
     id: "third_person",
     order: 6,
-    title: "第6回 断定・疑問・否定（三人称）",
+    title: "Lesson 6: Statements, Questions & Negation (Third Person)",
     questions: [
       {
         type: "reorder",
@@ -565,6 +847,54 @@ const LESSONS = [
         prompt: "みんな",
         answer: "everyone",
         options: ["everyone", "two people", "they", "he"]
+      },
+      {
+        type: "vocab",
+        prompt: "ともだち",
+        answer: "friend",
+        options: ["friend", "family", "adult", "child"]
+      },
+      {
+        type: "vocab",
+        prompt: "かぞく",
+        answer: "family",
+        options: ["family", "friend", "adult", "child"]
+      },
+      {
+        type: "vocab",
+        prompt: "おとこのひと",
+        answer: "man",
+        options: ["man", "woman", "boy", "girl"]
+      },
+      {
+        type: "vocab",
+        prompt: "おんなのひと",
+        answer: "woman",
+        options: ["woman", "man", "boy", "girl"]
+      },
+      {
+        type: "vocab",
+        prompt: "こども",
+        answer: "child",
+        options: ["child", "adult", "friend", "family"]
+      },
+      {
+        type: "vocab",
+        prompt: "わたしたち",
+        answer: "we",
+        options: ["we", "they", "you all", "everyone"]
+      },
+      {
+        type: "vocab",
+        prompt: "あなたたち",
+        answer: "you all",
+        options: ["you all", "we", "they", "everyone"]
+      },
+      {
+        type: "vocab",
+        prompt: "おとな",
+        answer: "adult",
+        options: ["adult", "child", "friend", "family"]
       }
     ],
     conversation: {
@@ -595,17 +925,17 @@ const LESSONS = [
     },
     summary: {
       points: [
-        "三人称（かれ・かのじょ・かれら）でも「です」の文法は同じ",
-        "な形容詞・名詞の否定は「じゃないです」（がくせいじゃないです）",
-        "い形容詞の否定は「くないです」、名詞の否定は「じゃないです」で使い分ける",
-        "疑問文はここでも文末に「か」をつけるだけ"
+        "The grammar with “です” is the same even for third person (かれ “he,” かのじょ “she,” かれら “they”).",
+        "Na-adjectives and nouns are negated with “じゃないです” (がくせいじゃないです “is not a student”).",
+        "Use “くないです” to negate i-adjectives and “じゃないです” to negate nouns — the two are different.",
+        "Here too, you make a question just by adding “か” to the end of the sentence."
       ]
     }
   },
   {
     id: "question_words",
     order: 7,
-    title: "第7回 疑問詞",
+    title: "Lesson 7: Question Words",
     questions: [
       {
         type: "particle",
@@ -659,6 +989,54 @@ const LESSONS = [
         prompt: "どれ",
         answer: "which one",
         options: ["which one", "when", "where", "what"]
+      },
+      {
+        type: "vocab",
+        prompt: "どうして",
+        answer: "why",
+        options: ["why", "how", "which", "what kind of"]
+      },
+      {
+        type: "vocab",
+        prompt: "どう",
+        answer: "how",
+        options: ["how", "why", "which", "what kind of"]
+      },
+      {
+        type: "vocab",
+        prompt: "どの",
+        answer: "which",
+        options: ["which", "how", "why", "how many"]
+      },
+      {
+        type: "vocab",
+        prompt: "どちら",
+        answer: "which one",
+        options: ["which one", "how", "why", "what kind of"]
+      },
+      {
+        type: "vocab",
+        prompt: "いくつ",
+        answer: "how many",
+        options: ["how many", "how much", "which", "why"]
+      },
+      {
+        type: "vocab",
+        prompt: "どんな",
+        answer: "what kind of",
+        options: ["what kind of", "why", "how", "which"]
+      },
+      {
+        type: "vocab",
+        prompt: "なんにん",
+        answer: "how many people",
+        options: ["how many people", "how many", "who", "which"]
+      },
+      {
+        type: "vocab",
+        prompt: "いくら",
+        answer: "how much",
+        options: ["how much", "how many", "which", "why"]
       }
     ],
     conversation: {
@@ -689,17 +1067,17 @@ const LESSONS = [
     },
     summary: {
       points: [
-        "「なに・だれ・どこ・いつ」などの疑問詞を使って詳しく質問できる",
-        "疑問詞を使うときも文末の「か」は必要",
-        "疑問詞は聞きたい情報の場所に入れる（それは［なに］ですか）",
-        "「だれ」は人、「なに」はもの、「どこ」は場所、「いつ」は時間を聞くときに使う"
+        "Question words like なに (what), だれ (who), どこ (where), and いつ (when) let you ask more detailed questions.",
+        "Even when using a question word, you still need “か” at the end of the sentence.",
+        "Put the question word where the information you're asking about would go (それは［なに］ですか “What is that?”).",
+        "Use “だれ” for people, “なに” for things, “どこ” for places, and “いつ” for times."
       ]
     }
   },
   {
     id: "time_weekday",
     order: 8,
-    title: "第8回 時間・曜日",
+    title: "Lesson 8: Time & Days of the Week",
     questions: [
       {
         type: "particle",
@@ -753,6 +1131,72 @@ const LESSONS = [
         prompt: "なんようび",
         answer: "what day of the week",
         options: ["what day of the week", "what time", "tomorrow", "now"]
+      },
+      {
+        type: "vocab",
+        prompt: "げつようび",
+        answer: "Monday",
+        options: ["Monday", "Tuesday", "Wednesday", "Sunday"]
+      },
+      {
+        type: "vocab",
+        prompt: "かようび",
+        answer: "Tuesday",
+        options: ["Tuesday", "Monday", "Wednesday", "Thursday"]
+      },
+      {
+        type: "vocab",
+        prompt: "すいようび",
+        answer: "Wednesday",
+        options: ["Wednesday", "Tuesday", "Thursday", "Friday"]
+      },
+      {
+        type: "vocab",
+        prompt: "もくようび",
+        answer: "Thursday",
+        options: ["Thursday", "Wednesday", "Friday", "Saturday"]
+      },
+      {
+        type: "vocab",
+        prompt: "きんようび",
+        answer: "Friday",
+        options: ["Friday", "Thursday", "Saturday", "Sunday"]
+      },
+      {
+        type: "vocab",
+        prompt: "どようび",
+        answer: "Saturday",
+        options: ["Saturday", "Friday", "Sunday", "Monday"]
+      },
+      {
+        type: "vocab",
+        prompt: "にちようび",
+        answer: "Sunday",
+        options: ["Sunday", "Saturday", "Monday", "Tuesday"]
+      },
+      {
+        type: "vocab",
+        prompt: "きのう",
+        answer: "yesterday",
+        options: ["yesterday", "today", "tomorrow", "every day"]
+      },
+      {
+        type: "vocab",
+        prompt: "まいにち",
+        answer: "every day",
+        options: ["every day", "yesterday", "today", "tomorrow"]
+      },
+      {
+        type: "vocab",
+        prompt: "ごぜん",
+        answer: "morning (AM)",
+        options: ["morning (AM)", "afternoon (PM)", "yesterday", "tomorrow"]
+      },
+      {
+        type: "vocab",
+        prompt: "ごご",
+        answer: "afternoon (PM)",
+        options: ["afternoon (PM)", "morning (AM)", "yesterday", "tomorrow"]
       }
     ],
     conversation: {
@@ -783,17 +1227,17 @@ const LESSONS = [
     },
     summary: {
       points: [
-        "時間を聞くときは「いまなんじですか」",
-        "曜日を聞くときは「きょうはなんようびですか」",
-        "時刻には助詞「に」を使う（しちじにおきます）",
-        "曜日（げつようび〜にちようび）は覚えておくと便利"
+        "To ask the time, say “いまなんじですか” (What time is it now?).",
+        "To ask the day of the week, say “きょうはなんようびですか” (What day is today?).",
+        "Use the particle “に” with clock times (しちじにおきます “I get up at 7 o'clock”).",
+        "It's handy to memorize the days of the week (げつようび Monday through にちようび Sunday)."
       ]
     }
   },
   {
     id: "prices",
     order: 9,
-    title: "第9回 値段",
+    title: "Lesson 9: Prices",
     questions: [
       {
         type: "particle",
@@ -847,6 +1291,60 @@ const LESSONS = [
         prompt: "ぜんぶで",
         answer: "in total",
         options: ["in total", "how much", "cheap", "yen"]
+      },
+      {
+        type: "vocab",
+        prompt: "おかね",
+        answer: "money",
+        options: ["money", "shop", "card", "cash"]
+      },
+      {
+        type: "vocab",
+        prompt: "みせ",
+        answer: "shop",
+        options: ["shop", "money", "card", "receipt"]
+      },
+      {
+        type: "vocab",
+        prompt: "カード",
+        answer: "card",
+        options: ["card", "cash", "money", "receipt"]
+      },
+      {
+        type: "vocab",
+        prompt: "げんきん",
+        answer: "cash",
+        options: ["cash", "card", "money", "receipt"]
+      },
+      {
+        type: "vocab",
+        prompt: "レシート",
+        answer: "receipt",
+        options: ["receipt", "card", "cash", "money"]
+      },
+      {
+        type: "vocab",
+        prompt: "ひゃく",
+        answer: "hundred",
+        options: ["hundred", "thousand", "ten thousand", "yen"]
+      },
+      {
+        type: "vocab",
+        prompt: "せん",
+        answer: "thousand",
+        options: ["thousand", "hundred", "ten thousand", "yen"]
+      },
+      {
+        type: "vocab",
+        prompt: "まん",
+        answer: "ten thousand",
+        options: ["ten thousand", "thousand", "hundred", "yen"]
+      },
+      {
+        type: "vocab",
+        prompt: "むりょう",
+        answer: "free of charge",
+        options: ["free of charge", "expensive", "cheap", "in total"]
       }
     ],
     conversation: {
@@ -877,17 +1375,17 @@ const LESSONS = [
     },
     summary: {
       points: [
-        "値段を聞くときは「これはいくらですか」",
-        "お金の単位は「えん」",
-        "「ぜんぶで」は合計金額を聞く・言うときに使う",
-        "「たかい・やすい」で値段の感想も言える"
+        "To ask a price, say “これはいくらですか” (How much is this?).",
+        "The unit of currency is “えん” (yen).",
+        "“ぜんぶで” (in total) is used when asking or stating a total amount.",
+        "You can also comment on a price with “たかい” (expensive) or “やすい” (cheap)."
       ]
     }
   },
   {
     id: "basic_particles",
     order: 10,
-    title: "第10回 助詞（を・が・は・で・に）",
+    title: "Lesson 10: Particles (を・が・は・で・に)",
     questions: [
       {
         type: "particle",
@@ -965,6 +1463,60 @@ const LESSONS = [
         prompt: "はなします",
         answer: "talk",
         options: ["talk", "meet", "read", "buy"]
+      },
+      {
+        type: "vocab",
+        prompt: "みます",
+        answer: "see",
+        options: ["see", "listen", "write", "drink"]
+      },
+      {
+        type: "vocab",
+        prompt: "ききます",
+        answer: "listen",
+        options: ["listen", "see", "write", "drink"]
+      },
+      {
+        type: "vocab",
+        prompt: "かきます",
+        answer: "write",
+        options: ["write", "see", "listen", "read"]
+      },
+      {
+        type: "vocab",
+        prompt: "のみます",
+        answer: "drink",
+        options: ["drink", "eat", "see", "listen"]
+      },
+      {
+        type: "vocab",
+        prompt: "いきます",
+        answer: "go",
+        options: ["go", "return", "do", "sleep"]
+      },
+      {
+        type: "vocab",
+        prompt: "します",
+        answer: "do",
+        options: ["do", "go", "sleep", "get up"]
+      },
+      {
+        type: "vocab",
+        prompt: "ねます",
+        answer: "sleep",
+        options: ["sleep", "get up", "do", "go"]
+      },
+      {
+        type: "vocab",
+        prompt: "おきます",
+        answer: "get up",
+        options: ["get up", "sleep", "do", "return"]
+      },
+      {
+        type: "vocab",
+        prompt: "かえります",
+        answer: "return",
+        options: ["return", "go", "get up", "sleep"]
       }
     ],
     conversation: {
@@ -995,17 +1547,17 @@ const LESSONS = [
     },
     summary: {
       points: [
-        "「を」は動作の対象（ごはんをたべる）",
-        "「に」は行き先・相手（がっこうにいく、ともだちにあう）",
-        "「で」は場所・手段（いえでべんきょうする、でんしゃでいく）",
-        "「と」は一緒にする相手（ともだちとはなす）"
+        "“を” marks the direct object of an action (ごはんをたべる “eat rice”).",
+        "“に” marks a destination or the person you interact with (がっこうにいく “go to school,” ともだちにあう “meet a friend”).",
+        "“で” marks a location of action or a means (いえでべんきょうする “study at home,” でんしゃでいく “go by train”).",
+        "“と” marks the person you do something together with (ともだちとはなす “talk with a friend”)."
       ]
     }
   },
   {
     id: "existence_things",
     order: 11,
-    title: "第11回 所在・存在（もの）",
+    title: "Lesson 11: Existence (Things)",
     questions: [
       {
         type: "particle",
@@ -1067,6 +1619,66 @@ const LESSONS = [
         prompt: "なか",
         answer: "inside",
         options: ["inside", "on top of", "box", "chair"]
+      },
+      {
+        type: "vocab",
+        prompt: "した",
+        answer: "under",
+        options: ["under", "on top of", "next to", "behind"]
+      },
+      {
+        type: "vocab",
+        prompt: "よこ",
+        answer: "next to",
+        options: ["next to", "under", "in front of", "behind"]
+      },
+      {
+        type: "vocab",
+        prompt: "まえ",
+        answer: "in front of",
+        options: ["in front of", "behind", "under", "next to"]
+      },
+      {
+        type: "vocab",
+        prompt: "うしろ",
+        answer: "behind",
+        options: ["behind", "in front of", "under", "next to"]
+      },
+      {
+        type: "vocab",
+        prompt: "ちかく",
+        answer: "near",
+        options: ["near", "between", "behind", "under"]
+      },
+      {
+        type: "vocab",
+        prompt: "あいだ",
+        answer: "between",
+        options: ["between", "near", "in front of", "behind"]
+      },
+      {
+        type: "vocab",
+        prompt: "まど",
+        answer: "window",
+        options: ["window", "door", "table", "bookshelf"]
+      },
+      {
+        type: "vocab",
+        prompt: "ドア",
+        answer: "door",
+        options: ["door", "window", "table", "bookshelf"]
+      },
+      {
+        type: "vocab",
+        prompt: "テーブル",
+        answer: "table",
+        options: ["table", "bookshelf", "window", "door"]
+      },
+      {
+        type: "vocab",
+        prompt: "ほんだな",
+        answer: "bookshelf",
+        options: ["bookshelf", "table", "window", "door"]
       }
     ],
     conversation: {
@@ -1097,17 +1709,17 @@ const LESSONS = [
     },
     summary: {
       points: [
-        "ものの存在は「～があります」で表す",
-        "場所は「～に」で示す（つくえのうえに、はこのなかに）",
-        "「うえ」「なか」などの位置ことばと組み合わせてよく使う",
-        "否定は「ありません」"
+        "The existence of things is expressed with “～があります” (there is/are ___).",
+        "Location is shown with “～に” (つくえのうえに “on the desk,” はこのなかに “inside the box”).",
+        "This is often combined with position words like “うえ” (on top of) and “なか” (inside).",
+        "The negative form is “ありません” (there isn't/aren't)."
       ]
     }
   },
   {
     id: "existence_beings",
     order: 12,
-    title: "第12回 所在・存在（人・生物）",
+    title: "Lesson 12: Existence (People & Animals)",
     questions: [
       {
         type: "particle",
@@ -1169,6 +1781,54 @@ const LESSONS = [
         prompt: "かぞく",
         answer: "family",
         options: ["family", "child", "dog", "cat"]
+      },
+      {
+        type: "vocab",
+        prompt: "うま",
+        answer: "horse",
+        options: ["horse", "rabbit", "insect", "fish"]
+      },
+      {
+        type: "vocab",
+        prompt: "うさぎ",
+        answer: "rabbit",
+        options: ["rabbit", "horse", "insect", "fish"]
+      },
+      {
+        type: "vocab",
+        prompt: "むし",
+        answer: "insect",
+        options: ["insect", "horse", "rabbit", "fish"]
+      },
+      {
+        type: "vocab",
+        prompt: "さかな",
+        answer: "fish",
+        options: ["fish", "insect", "horse", "rabbit"]
+      },
+      {
+        type: "vocab",
+        prompt: "あかちゃん",
+        answer: "baby",
+        options: ["baby", "child", "boy", "girl"]
+      },
+      {
+        type: "vocab",
+        prompt: "おとこのこ",
+        answer: "boy",
+        options: ["boy", "girl", "baby", "child"]
+      },
+      {
+        type: "vocab",
+        prompt: "おんなのこ",
+        answer: "girl",
+        options: ["girl", "boy", "baby", "child"]
+      },
+      {
+        type: "vocab",
+        prompt: "ペット",
+        answer: "pet",
+        options: ["pet", "family", "child", "insect"]
       }
     ],
     conversation: {
@@ -1199,17 +1859,17 @@ const LESSONS = [
     },
     summary: {
       points: [
-        "人や生き物の存在は「～がいます」で表す（ものは「あります」）",
-        "場所は「～に」で示す（いえに、こうえんに）",
-        "「あります」＝もの、「います」＝人・生き物、と覚えるとよい",
-        "疑問文「だれがいますか」で誰がいるか聞ける"
+        "The existence of people and living creatures is expressed with “～がいます” (things use “あります” instead).",
+        "Location is shown with “～に” (いえに “at home,” こうえんに “in the park”).",
+        "It helps to remember: “あります” = things, “います” = people/living creatures.",
+        "You can ask who's there with the question “だれがいますか” (Who is there?)."
       ]
     }
   },
   {
     id: "adjective_modifier",
     order: 13,
-    title: "第13回 形容詞・形容動詞（名詞修飾）",
+    title: "Lesson 13: Adjectives Modifying Nouns",
     questions: [
       {
         type: "reorder",
@@ -1255,6 +1915,54 @@ const LESSONS = [
         prompt: "ひと",
         answer: "person",
         options: ["person", "room", "small", "big"]
+      },
+      {
+        type: "vocab",
+        prompt: "いい",
+        answer: "good",
+        options: ["good", "bad", "long", "short"]
+      },
+      {
+        type: "vocab",
+        prompt: "わるい",
+        answer: "bad",
+        options: ["bad", "good", "long", "short"]
+      },
+      {
+        type: "vocab",
+        prompt: "ながい",
+        answer: "long",
+        options: ["long", "short", "bright", "dark"]
+      },
+      {
+        type: "vocab",
+        prompt: "みじかい",
+        answer: "short",
+        options: ["short", "long", "bright", "dark"]
+      },
+      {
+        type: "vocab",
+        prompt: "あかるい",
+        answer: "bright",
+        options: ["bright", "dark", "long", "short"]
+      },
+      {
+        type: "vocab",
+        prompt: "くらい",
+        answer: "dark",
+        options: ["dark", "bright", "long", "short"]
+      },
+      {
+        type: "vocab",
+        prompt: "しんせつ",
+        answer: "kind",
+        options: ["kind", "energetic", "quiet", "bad"]
+      },
+      {
+        type: "vocab",
+        prompt: "げんき",
+        answer: "energetic",
+        options: ["energetic", "kind", "quiet", "bad"]
       }
     ],
     conversation: {
@@ -1285,1835 +1993,10 @@ const LESSONS = [
     },
     summary: {
       points: [
-        "い形容詞は名詞の前にそのまま置ける（たかいほん）",
-        "な形容詞は名詞の前で「な」が必要（しずかなへや）",
-        "「きれいです」→「きれいなひと」のように形が変わることに注意",
-        "この形を使うと、名詞をより詳しく説明できるようになる"
-      ]
-    }
-  },
-  {
-    id: "verb_groups",
-    order: 14,
-    title: "第14回 動詞の活用（グループ）",
-    questions: [
-      {
-        type: "vocab",
-        prompt: "のむ",
-        answer: "godan verb (u-verb)",
-        options: ["godan verb (u-verb)", "ichidan verb (ru-verb)", "irregular verb", "na-adjective"]
-      },
-      {
-        type: "vocab",
-        prompt: "たべる",
-        answer: "ichidan verb (ru-verb)",
-        options: ["ichidan verb (ru-verb)", "godan verb (u-verb)", "irregular verb", "na-adjective"]
-      },
-      {
-        type: "vocab",
-        prompt: "する",
-        answer: "irregular verb",
-        options: ["irregular verb", "godan verb (u-verb)", "ichidan verb (ru-verb)", "na-adjective"]
-      },
-      {
-        type: "vocab",
-        prompt: "かく",
-        answer: "godan verb (u-verb)",
-        options: ["godan verb (u-verb)", "ichidan verb (ru-verb)", "irregular verb", "na-adjective"]
-      },
-      {
-        type: "vocab",
-        prompt: "みる",
-        answer: "ichidan verb (ru-verb)",
-        options: ["ichidan verb (ru-verb)", "godan verb (u-verb)", "irregular verb", "na-adjective"]
-      },
-      {
-        type: "vocab",
-        prompt: "くる",
-        answer: "irregular verb",
-        options: ["irregular verb", "godan verb (u-verb)", "ichidan verb (ru-verb)", "na-adjective"]
-      },
-      {
-        type: "reorder",
-        words: ["コーヒーを", "のみます"],
-        translation: "I drink coffee."
-      },
-      {
-        type: "reorder",
-        words: ["テレビを", "みます"],
-        translation: "I watch TV."
-      },
-      {
-        type: "reorder",
-        words: ["しゅくだいを", "します"],
-        translation: "I do homework."
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "What do you drink?",
-          words: ["なにを", "のみますか"],
-          answer: "なにを のみますか",
-          reply: "コーヒーを のみます。"
-        },
-        {
-          english: "What do you watch?",
-          words: ["なにを", "みますか"],
-          answer: "なにを みますか",
-          reply: "テレビを みます。"
-        },
-        {
-          english: "Do you do homework?",
-          answer: "しゅくだいを しますか",
-          reply: "はい、します。"
-        },
-        {
-          english: "Does he come to school?",
-          answer: "かれは がっこうに きますか",
-          reply: "はい、きます。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "日本語の動詞は「五段動詞（u-verb）」「一段動詞（ru-verb）」「不規則動詞」の3グループに分かれる",
-        "五段動詞の例：のむ、かく、はなす（辞書形がuの音で終わる）",
-        "一段動詞の例：たべる、みる（辞書形がiまたはeの音＋るで終わる）",
-        "不規則動詞は「する」「くる」の2つだけ"
-      ]
-    }
-  },
-  {
-    id: "verb_forms_basic",
-    order: 15,
-    title: "第15回 動詞の活用形（基礎）",
-    questions: [
-      {
-        type: "vocab",
-        prompt: "たべる",
-        answer: "たべます",
-        options: ["たべます", "のみます", "みます", "します"]
-      },
-      {
-        type: "vocab",
-        prompt: "のむ",
-        answer: "のみます",
-        options: ["のみます", "たべます", "みます", "かきます"]
-      },
-      {
-        type: "vocab",
-        prompt: "かく",
-        answer: "かきます",
-        options: ["かきます", "のみます", "たべます", "みます"]
-      },
-      {
-        type: "vocab",
-        prompt: "みる",
-        answer: "みます",
-        options: ["みます", "のみます", "たべます", "かきます"]
-      },
-      {
-        type: "vocab",
-        prompt: "する",
-        answer: "します",
-        options: ["します", "のみます", "たべます", "みます"]
-      },
-      {
-        type: "reorder",
-        words: ["あさ", "ごはんを", "たべます"],
-        translation: "I eat breakfast in the morning."
-      },
-      {
-        type: "reorder",
-        words: ["よる", "テレビを", "みます"],
-        translation: "I watch TV at night."
-      },
-      {
-        type: "reorder",
-        words: ["まいにち", "べんきょうします"],
-        translation: "I study every day."
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Do you eat breakfast?",
-          words: ["あさごはんを", "たべますか"],
-          answer: "あさごはんを たべますか",
-          reply: "はい、たべます。"
-        },
-        {
-          english: "Do you study every day?",
-          words: ["まいにち", "べんきょうしますか"],
-          answer: "まいにち べんきょうしますか",
-          reply: "はい、します。"
-        },
-        {
-          english: "Do you watch TV at night?",
-          answer: "よる テレビを みますか",
-          reply: "はい、みます。"
-        },
-        {
-          english: "What do you write?",
-          answer: "なにを かきますか",
-          reply: "てがみを かきます。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "動詞には「辞書形」「ます形」「て形」「た形」「ない形」などの活用形がある",
-        "辞書形はそのまま覚える形（たべる、のむ）、ます形は丁寧な言い方（たべます、のみます）",
-        "これらの活用形に色々な表現をつなげることで、幅広い言い方ができるようになる",
-        "次のレッスンから、それぞれの活用形の使い方を順番に見ていく"
-      ]
-    }
-  },
-  {
-    id: "masu_form_attach",
-    order: 16,
-    title: "第16回 ます形＋たい／ませんか",
-    questions: [
-      {
-        type: "reorder",
-        words: ["にほんに", "いきたいです"],
-        translation: "I want to go to Japan."
-      },
-      {
-        type: "reorder",
-        words: ["コーヒーを", "のみたいです"],
-        translation: "I want to drink coffee."
-      },
-      {
-        type: "reorder",
-        words: ["いっしょに", "えいがを", "みませんか"],
-        translation: "Won't you watch a movie together?"
-      },
-      {
-        type: "vocab",
-        prompt: "おんせん",
-        answer: "hot spring",
-        options: ["hot spring", "travel", "movie", "cafe"]
-      },
-      {
-        type: "vocab",
-        prompt: "りょこう",
-        answer: "travel",
-        options: ["travel", "hot spring", "movie", "together"]
-      },
-      {
-        type: "vocab",
-        prompt: "えいが",
-        answer: "movie",
-        options: ["movie", "travel", "cafe", "hot spring"]
-      },
-      {
-        type: "vocab",
-        prompt: "カフェ",
-        answer: "cafe",
-        options: ["cafe", "movie", "travel", "together"]
-      },
-      {
-        type: "vocab",
-        prompt: "いっしょに",
-        answer: "together",
-        options: ["together", "cafe", "movie", "hot spring"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Where do you want to go?",
-          words: ["どこに", "いきたいですか"],
-          answer: "どこに いきたいですか",
-          reply: "にほんに いきたいです。"
-        },
-        {
-          english: "What do you want to eat?",
-          words: ["なにを", "たべたいですか"],
-          answer: "なにを たべたいですか",
-          reply: "すしを たべたいです。"
-        },
-        {
-          english: "Won't you drink coffee together?",
-          answer: "いっしょに コーヒーを のみませんか",
-          reply: "はい、いいですね。"
-        },
-        {
-          english: "Do you want to travel?",
-          answer: "りょこうを したいですか",
-          reply: "はい、したいです。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "「ます形＋たいです」で「～したい」という気持ちを言える（のみたいです）",
-        "「ます形＋ませんか」で相手を誘うことができる（みませんか）",
-        "「たい」は自分の気持ちを言うときに使う（他人には別の言い方を使う）",
-        "誘うときは「いっしょに～ませんか」がよく使われる"
-      ]
-    }
-  },
-  {
-    id: "te_form_attach",
-    order: 17,
-    title: "第17回 て形＋てもいい／ている／てはいけない",
-    questions: [
-      {
-        type: "reorder",
-        words: ["しゃしんを", "とっても", "いいですか"],
-        translation: "May I take a photo?"
-      },
-      {
-        type: "reorder",
-        words: ["まどを", "あけても", "いいですか"],
-        translation: "May I open the window?"
-      },
-      {
-        type: "reorder",
-        words: ["ここで", "はしっては", "いけません"],
-        translation: "You must not run here."
-      },
-      {
-        type: "vocab",
-        prompt: "しゃしん",
-        answer: "photo",
-        options: ["photo", "window", "door", "light"]
-      },
-      {
-        type: "vocab",
-        prompt: "まど",
-        answer: "window",
-        options: ["window", "photo", "door", "okay"]
-      },
-      {
-        type: "vocab",
-        prompt: "ドア",
-        answer: "door",
-        options: ["door", "window", "light", "photo"]
-      },
-      {
-        type: "vocab",
-        prompt: "でんき",
-        answer: "light",
-        options: ["light", "door", "window", "okay"]
-      },
-      {
-        type: "vocab",
-        prompt: "だいじょうぶ",
-        answer: "okay/fine",
-        options: ["okay/fine", "light", "photo", "door"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "May I take a photo?",
-          words: ["しゃしんを", "とっても", "いいですか"],
-          answer: "しゃしんを とっても いいですか",
-          reply: "はい、どうぞ。"
-        },
-        {
-          english: "May I open the window?",
-          words: ["まどを", "あけても", "いいですか"],
-          answer: "まどを あけても いいですか",
-          reply: "はい、だいじょうぶです。"
-        },
-        {
-          english: "Are you studying now?",
-          answer: "いま べんきょうしていますか",
-          reply: "はい、しています。"
-        },
-        {
-          english: "You must not run here.",
-          answer: "ここで はしっては いけません",
-          reply: "はい、わかりました。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "「て形＋もいいですか」で許可を求められる（とってもいいですか）",
-        "「て形＋いる」で今していることを表す（べんきょうしています）",
-        "「て形＋はいけません」で禁止を表す（はしってはいけません）",
-        "て形は動詞によって形が変わるので、よく使う動詞から覚えるとよい"
-      ]
-    }
-  },
-  {
-    id: "ta_form_attach",
-    order: 18,
-    title: "第18回 た形＋たことがある／たほうがいい",
-    questions: [
-      {
-        type: "reorder",
-        words: ["にほんに", "いったことが", "あります"],
-        translation: "I have been to Japan."
-      },
-      {
-        type: "reorder",
-        words: ["すしを", "たべたことが", "あります"],
-        translation: "I have eaten sushi."
-      },
-      {
-        type: "reorder",
-        words: ["びょういんに", "いったほうが", "いいです"],
-        translation: "You should go to the hospital."
-      },
-      {
-        type: "vocab",
-        prompt: "けいけん",
-        answer: "experience",
-        options: ["experience", "advice", "hospital", "medicine"]
-      },
-      {
-        type: "vocab",
-        prompt: "りゅうがく",
-        answer: "studying abroad",
-        options: ["studying abroad", "experience", "advice", "hospital"]
-      },
-      {
-        type: "vocab",
-        prompt: "アドバイス",
-        answer: "advice",
-        options: ["advice", "experience", "medicine", "hospital"]
-      },
-      {
-        type: "vocab",
-        prompt: "びょういん",
-        answer: "hospital",
-        options: ["hospital", "medicine", "advice", "experience"]
-      },
-      {
-        type: "vocab",
-        prompt: "くすり",
-        answer: "medicine",
-        options: ["medicine", "hospital", "experience", "advice"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Have you been to Japan?",
-          words: ["にほんに", "いったことが", "ありますか"],
-          answer: "にほんに いったことが ありますか",
-          reply: "はい、あります。"
-        },
-        {
-          english: "Have you eaten natto?",
-          words: ["なっとうを", "たべたことが", "ありますか"],
-          answer: "なっとうを たべたことが ありますか",
-          reply: "いいえ、ありません。"
-        },
-        {
-          english: "You should take medicine.",
-          answer: "くすりを のんだほうが いいです",
-          reply: "はい、そうします。"
-        },
-        {
-          english: "You should go to the hospital.",
-          answer: "びょういんに いったほうが いいです",
-          reply: "わかりました。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "「た形＋ことがあります」で過去の経験を言える（いったことがあります）",
-        "「た形＋ほうがいいです」でアドバイスができる（いったほうがいいです）",
-        "経験がないときは「た形＋ことがありません」",
-        "た形は「て形」と同じ変化のルールを使う（たべて→たべた）"
-      ]
-    }
-  },
-  {
-    id: "nai_form_attach",
-    order: 19,
-    title: "第19回 ない形＋なくてはいけない",
-    questions: [
-      {
-        type: "reorder",
-        words: ["しゅくだいを", "しなくては", "いけません"],
-        translation: "I must do homework."
-      },
-      {
-        type: "reorder",
-        words: ["はやく", "おきなくては", "いけません"],
-        translation: "I must wake up early."
-      },
-      {
-        type: "reorder",
-        words: ["やくそくを", "まもらなくては", "いけません"],
-        translation: "I must keep the promise."
-      },
-      {
-        type: "vocab",
-        prompt: "しゅくだい",
-        answer: "homework",
-        options: ["homework", "promise", "work/job", "early"]
-      },
-      {
-        type: "vocab",
-        prompt: "やくそく",
-        answer: "promise",
-        options: ["promise", "homework", "work/job", "keep/protect"]
-      },
-      {
-        type: "vocab",
-        prompt: "しごと",
-        answer: "work/job",
-        options: ["work/job", "promise", "homework", "early"]
-      },
-      {
-        type: "vocab",
-        prompt: "はやく",
-        answer: "early",
-        options: ["early", "work/job", "promise", "keep/protect"]
-      },
-      {
-        type: "vocab",
-        prompt: "まもります",
-        answer: "keep/protect",
-        options: ["keep/protect", "early", "homework", "work/job"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Must you do homework?",
-          words: ["しゅくだいを", "しなくては", "いけませんか"],
-          answer: "しゅくだいを しなくては いけませんか",
-          reply: "はい、しなくては いけません。"
-        },
-        {
-          english: "Must you wake up early?",
-          words: ["はやく", "おきなくては", "いけませんか"],
-          answer: "はやく おきなくては いけませんか",
-          reply: "はい、そうです。"
-        },
-        {
-          english: "Must you go to work?",
-          answer: "しごとに いかなくては いけませんか",
-          reply: "はい、いかなくては いけません。"
-        },
-        {
-          english: "Must you keep the promise?",
-          answer: "やくそくを まもらなくては いけませんか",
-          reply: "もちろんです。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "「ない形＋くてはいけません」で「～しなければならない」という義務を表す",
-        "ない形は動詞ごとにルールがある（する→しない、おきる→おきない、まもる→まもらない）",
-        "「なくてはいけません」は少し硬い言い方（会話では「なきゃ」もよく使われる）",
-        "義務を表す表現は約束やルールを話すときによく使う"
-      ]
-    }
-  },
-  {
-    id: "dictionary_form_attach",
-    order: 20,
-    title: "第20回 辞書形＋ことができる／と思う／つもりだ／らしい",
-    questions: [
-      {
-        type: "reorder",
-        words: ["にほんごを", "はなすことが", "できます"],
-        translation: "I can speak Japanese."
-      },
-      {
-        type: "reorder",
-        words: ["あした", "あめが", "ふると", "おもいます"],
-        translation: "I think it will rain tomorrow."
-      },
-      {
-        type: "reorder",
-        words: ["らいねん", "にほんに", "いくつもりです"],
-        translation: "I plan to go to Japan next year."
-      },
-      {
-        type: "reorder",
-        words: ["かれは", "やさしいらしいです"],
-        translation: "I heard he is kind."
-      },
-      {
-        type: "vocab",
-        prompt: "あめ",
-        answer: "rain",
-        options: ["rain", "next year", "kind", "plan"]
-      },
-      {
-        type: "vocab",
-        prompt: "らいねん",
-        answer: "next year",
-        options: ["next year", "rain", "kind", "rumor"]
-      },
-      {
-        type: "vocab",
-        prompt: "やさしい",
-        answer: "kind",
-        options: ["kind", "rain", "plan", "next year"]
-      },
-      {
-        type: "vocab",
-        prompt: "けいかく",
-        answer: "plan",
-        options: ["plan", "kind", "rumor", "rain"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Can you speak Japanese?",
-          words: ["にほんごを", "はなすことが", "できますか"],
-          answer: "にほんごを はなすことが できますか",
-          reply: "はい、すこし できます。"
-        },
-        {
-          english: "Do you think it will rain tomorrow?",
-          words: ["あした", "あめが", "ふるとおもいますか"],
-          answer: "あした あめが ふるとおもいますか",
-          reply: "はい、そうおもいます。"
-        },
-        {
-          english: "Do you plan to go to Japan?",
-          answer: "にほんに いくつもりですか",
-          reply: "はい、そのつもりです。"
-        },
-        {
-          english: "I heard he is kind.",
-          answer: "かれは やさしいらしいです",
-          reply: "そうなんですね。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "「辞書形＋ことができる」で可能を表す（はなすことができます）",
-        "「辞書形＋と思う」で自分の考えを言う（ふるとおもいます）",
-        "「辞書形＋つもりだ」で予定・意志を言う（いくつもりです）",
-        "「辞書形＋らしい」で聞いた情報・推測を言う（やさしいらしいです）"
-      ]
-    }
-  },
-  {
-    id: "adjective_nominalize",
-    order: 21,
-    title: "第21回 形容詞・形容動詞（さ名詞化）",
-    questions: [
-      {
-        type: "reorder",
-        words: ["ふじさんの", "たかさは", "ゆうめいです"],
-        translation: "Mt. Fuji's height is famous."
-      },
-      {
-        type: "reorder",
-        words: ["にほんごの", "むずかしさが", "わかりました"],
-        translation: "I understood the difficulty of Japanese."
-      },
-      {
-        type: "reorder",
-        words: ["このアプリの", "べんりさが", "すきです"],
-        translation: "I like this app's convenience."
-      },
-      {
-        type: "vocab",
-        prompt: "たかさ",
-        answer: "height",
-        options: ["height", "difficulty", "size", "convenience"]
-      },
-      {
-        type: "vocab",
-        prompt: "むずかしさ",
-        answer: "difficulty",
-        options: ["difficulty", "height", "size", "funness"]
-      },
-      {
-        type: "vocab",
-        prompt: "おおきさ",
-        answer: "size",
-        options: ["size", "difficulty", "height", "convenience"]
-      },
-      {
-        type: "vocab",
-        prompt: "べんりさ",
-        answer: "convenience",
-        options: ["convenience", "size", "funness", "difficulty"]
-      },
-      {
-        type: "vocab",
-        prompt: "たのしさ",
-        answer: "funness/enjoyment",
-        options: ["funness/enjoyment", "convenience", "height", "size"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Do you understand the difficulty of Japanese?",
-          words: ["にほんごの", "むずかしさが", "わかりますか"],
-          answer: "にほんごの むずかしさが わかりますか",
-          reply: "はい、わかります。"
-        },
-        {
-          english: "Do you like this app's convenience?",
-          words: ["このアプリの", "べんりさが", "すきですか"],
-          answer: "このアプリの べんりさが すきですか",
-          reply: "はい、すきです。"
-        },
-        {
-          english: "Is Mt. Fuji's height famous?",
-          answer: "ふじさんの たかさは ゆうめいですか",
-          reply: "はい、ゆうめいです。"
-        },
-        {
-          english: "Do you know this room's size?",
-          answer: "このへやの おおきさを しっていますか",
-          reply: "いいえ、しりません。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "形容詞の語幹に「さ」をつけると名詞になる（たかい→たかさ、むずかしい→むずかしさ）",
-        "「さ」をつけることで、程度や性質を名詞として話せるようになる",
-        "な形容詞も同じルールが使える（べんり→べんりさ）",
-        "この形は「〜が好き」「〜がわかる」などと組み合わせてよく使われる"
-      ]
-    }
-  },
-  {
-    id: "potential_form",
-    order: 22,
-    title: "第22回 可能形",
-    questions: [
-      {
-        type: "vocab",
-        prompt: "はなす",
-        answer: "はなせる",
-        options: ["はなせる", "たべられる", "いける", "のめる"]
-      },
-      {
-        type: "vocab",
-        prompt: "たべる",
-        answer: "たべられる",
-        options: ["たべられる", "はなせる", "いける", "のめる"]
-      },
-      {
-        type: "vocab",
-        prompt: "いく",
-        answer: "いける",
-        options: ["いける", "たべられる", "はなせる", "のめる"]
-      },
-      {
-        type: "vocab",
-        prompt: "のむ",
-        answer: "のめる",
-        options: ["のめる", "いける", "たべられる", "はなせる"]
-      },
-      {
-        type: "reorder",
-        words: ["にほんごが", "はなせます"],
-        translation: "I can speak Japanese."
-      },
-      {
-        type: "reorder",
-        words: ["きょうは", "いけます"],
-        translation: "I can go today."
-      },
-      {
-        type: "reorder",
-        words: ["おさけが", "のめません"],
-        translation: "I cannot drink alcohol."
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Can you speak Japanese?",
-          words: ["にほんごが", "はなせますか"],
-          answer: "にほんごが はなせますか",
-          reply: "はい、はなせます。"
-        },
-        {
-          english: "Can you go today?",
-          words: ["きょうは", "いけますか"],
-          answer: "きょうは いけますか",
-          reply: "はい、いけます。"
-        },
-        {
-          english: "Can you drink alcohol?",
-          answer: "おさけが のめますか",
-          reply: "いいえ、のめません。"
-        },
-        {
-          english: "Can you eat natto?",
-          answer: "なっとうが たべられますか",
-          reply: "はい、たべられます。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "可能形は「〜することができる」を1語で言える形（はなす→はなせる）",
-        "五段動詞は「う→える」に変える（のむ→のめる、はなす→はなせる）",
-        "一段動詞は「る→られる」に変える（たべる→たべられる）",
-        "可能形の対象には「が」を使う（にほんごがはなせます）"
-      ]
-    }
-  },
-  {
-    id: "happy",
-    order: 23,
-    title: "第23回 うれしい",
-    questions: [
-      {
-        type: "reorder",
-        words: ["プレゼントを", "もらって", "うれしいです"],
-        translation: "I'm happy to receive a present."
-      },
-      {
-        type: "reorder",
-        words: ["テストに", "ごうかくして", "うれしいです"],
-        translation: "I'm happy to pass the test."
-      },
-      {
-        type: "reorder",
-        words: ["あなたに", "あえて", "うれしいです"],
-        translation: "I'm happy to meet you."
-      },
-      {
-        type: "vocab",
-        prompt: "プレゼント",
-        answer: "present",
-        options: ["present", "birthday", "passing (an exam)", "marriage"]
-      },
-      {
-        type: "vocab",
-        prompt: "たんじょうび",
-        answer: "birthday",
-        options: ["birthday", "present", "success", "marriage"]
-      },
-      {
-        type: "vocab",
-        prompt: "ごうかく",
-        answer: "passing (an exam)",
-        options: ["passing (an exam)", "birthday", "present", "success"]
-      },
-      {
-        type: "vocab",
-        prompt: "けっこん",
-        answer: "marriage",
-        options: ["marriage", "passing (an exam)", "present", "success"]
-      },
-      {
-        type: "vocab",
-        prompt: "せいこう",
-        answer: "success",
-        options: ["success", "marriage", "birthday", "present"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Are you happy to receive a present?",
-          words: ["プレゼントを", "もらって", "うれしいですか"],
-          answer: "プレゼントを もらって うれしいですか",
-          reply: "はい、うれしいです。"
-        },
-        {
-          english: "Are you happy today?",
-          words: ["きょう", "うれしいですか"],
-          answer: "きょう うれしいですか",
-          reply: "はい、とても うれしいです。"
-        },
-        {
-          english: "Are you happy to pass the test?",
-          answer: "テストに ごうかくして うれしいですか",
-          reply: "はい、うれしいです。"
-        },
-        {
-          english: "Are you happy to meet him?",
-          answer: "かれに あえて うれしいですか",
-          reply: "はい、うれしいです。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "感情の理由は「て形＋うれしいです」で表す（もらってうれしいです）",
-        "て形は「〜して、その結果」という意味合いを持つ",
-        "「うれしい」はポジティブな出来事に使う",
-        "同じパターンで他の感情表現にも応用できる（このあとのレッスンで練習）"
-      ]
-    }
-  },
-  {
-    id: "troubled",
-    order: 24,
-    title: "第24回 困る",
-    questions: [
-      {
-        type: "reorder",
-        words: ["さいふを", "なくして", "こまります"],
-        translation: "I'm in trouble because I lost my wallet."
-      },
-      {
-        type: "reorder",
-        words: ["かぎが", "なくて", "こまります"],
-        translation: "I'm in trouble because I don't have my key."
-      },
-      {
-        type: "reorder",
-        words: ["でんわが", "こしょうして", "こまります"],
-        translation: "I'm in trouble because my phone broke."
-      },
-      {
-        type: "vocab",
-        prompt: "さいふ",
-        answer: "wallet",
-        options: ["wallet", "key", "phone", "breakdown"]
-      },
-      {
-        type: "vocab",
-        prompt: "かぎ",
-        answer: "key",
-        options: ["key", "wallet", "phone", "lose"]
-      },
-      {
-        type: "vocab",
-        prompt: "でんわ",
-        answer: "phone",
-        options: ["phone", "key", "wallet", "breakdown"]
-      },
-      {
-        type: "vocab",
-        prompt: "なくす",
-        answer: "lose",
-        options: ["lose", "phone", "key", "breakdown"]
-      },
-      {
-        type: "vocab",
-        prompt: "こしょう",
-        answer: "breakdown",
-        options: ["breakdown", "lose", "wallet", "key"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Are you in trouble because you lost your wallet?",
-          words: ["さいふを", "なくして", "こまりますか"],
-          answer: "さいふを なくして こまりますか",
-          reply: "はい、こまります。"
-        },
-        {
-          english: "Are you in trouble because you don't have a key?",
-          words: ["かぎが", "なくて", "こまりますか"],
-          answer: "かぎが なくて こまりますか",
-          reply: "はい、とても こまります。"
-        },
-        {
-          english: "Are you in trouble because your phone broke?",
-          answer: "でんわが こしょうして こまりますか",
-          reply: "はい、こまります。"
-        },
-        {
-          english: "What troubles you?",
-          answer: "なにに こまりますか",
-          reply: "じかんが なくて こまります。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "困った理由は「て形＋こまります」で表す（なくしてこまります）",
-        "「ない」の て形は「なくて」になる（かぎがなくて）",
-        "ネガティブな出来事の理由を言うときによく使うパターン",
-        "「うれしい」のときと同じ「て形＋感情」の形"
-      ]
-    }
-  },
-  {
-    id: "sad",
-    order: 25,
-    title: "第25回 悲しい",
-    questions: [
-      {
-        type: "reorder",
-        words: ["ともだちと", "わかれて", "かなしいです"],
-        translation: "I'm sad because I parted with my friend."
-      },
-      {
-        type: "reorder",
-        words: ["ペットが", "いなくなって", "かなしいです"],
-        translation: "I'm sad because my pet is gone."
-      },
-      {
-        type: "reorder",
-        words: ["さようならを", "いって", "かなしいです"],
-        translation: "I'm sad to say goodbye."
-      },
-      {
-        type: "vocab",
-        prompt: "わかれる",
-        answer: "part ways",
-        options: ["part ways", "disappear", "cry", "pet"]
-      },
-      {
-        type: "vocab",
-        prompt: "ペット",
-        answer: "pet",
-        options: ["pet", "part ways", "disappear", "goodbye"]
-      },
-      {
-        type: "vocab",
-        prompt: "いなくなる",
-        answer: "to be gone",
-        options: ["to be gone", "pet", "part ways", "cry"]
-      },
-      {
-        type: "vocab",
-        prompt: "さようなら",
-        answer: "goodbye",
-        options: ["goodbye", "to be gone", "pet", "cry"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Are you sad because you parted with your friend?",
-          words: ["ともだちと", "わかれて", "かなしいですか"],
-          answer: "ともだちと わかれて かなしいですか",
-          reply: "はい、かなしいです。"
-        },
-        {
-          english: "Are you sad your pet is gone?",
-          words: ["ペットが", "いなくなって", "かなしいですか"],
-          answer: "ペットが いなくなって かなしいですか",
-          reply: "はい、とても かなしいです。"
-        },
-        {
-          english: "Are you sad to say goodbye?",
-          answer: "さようならを いって かなしいですか",
-          reply: "はい、かなしいです。"
-        },
-        {
-          english: "Why are you sad?",
-          answer: "どうして かなしいですか",
-          reply: "ともだちと わかれたからです。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "悲しい理由も「て形＋かなしいです」で表す",
-        "「わかれる」「いなくなる」など別れ・喪失に関することばとよく使う",
-        "「どうして」で理由を聞くことができる",
-        "これまでと同じ「て形＋感情表現」のパターン"
-      ]
-    }
-  },
-  {
-    id: "worried",
-    order: 26,
-    title: "第26回 心配",
-    questions: [
-      {
-        type: "reorder",
-        words: ["たいふうが", "きて", "しんぱいです"],
-        translation: "I'm worried because a typhoon is coming."
-      },
-      {
-        type: "reorder",
-        words: ["けんこうが", "しんぱいです"],
-        translation: "I'm worried about (my) health."
-      },
-      {
-        type: "reorder",
-        words: ["しけんの", "けっかが", "しんぱいです"],
-        translation: "I'm worried about the exam results."
-      },
-      {
-        type: "vocab",
-        prompt: "てんき",
-        answer: "weather",
-        options: ["weather", "typhoon", "health", "exam"]
-      },
-      {
-        type: "vocab",
-        prompt: "たいふう",
-        answer: "typhoon",
-        options: ["typhoon", "weather", "health", "safety"]
-      },
-      {
-        type: "vocab",
-        prompt: "けんこう",
-        answer: "health",
-        options: ["health", "typhoon", "exam", "safety"]
-      },
-      {
-        type: "vocab",
-        prompt: "しけん",
-        answer: "exam",
-        options: ["exam", "health", "weather", "safety"]
-      },
-      {
-        type: "vocab",
-        prompt: "あんぜん",
-        answer: "safety",
-        options: ["safety", "exam", "typhoon", "health"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Are you worried about the typhoon?",
-          words: ["たいふうが", "きて", "しんぱいですか"],
-          answer: "たいふうが きて しんぱいですか",
-          reply: "はい、しんぱいです。"
-        },
-        {
-          english: "Are you worried about your health?",
-          words: ["けんこうが", "しんぱいですか"],
-          answer: "けんこうが しんぱいですか",
-          reply: "はい、しんぱいです。"
-        },
-        {
-          english: "Are you worried about the exam results?",
-          answer: "しけんの けっかが しんぱいですか",
-          reply: "はい、とても しんぱいです。"
-        },
-        {
-          english: "Are you worried about safety?",
-          answer: "あんぜんが しんぱいですか",
-          reply: "いいえ、だいじょうぶです。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "心配な理由は「て形＋しんぱいです」、または「〜がしんぱいです」で表す",
-        "天気・健康・試験結果など、これから起こることへの不安によく使う",
-        "「だいじょうぶです」で安心させる返事ができる",
-        "感情表現はすべて似たパターンで作れることに気づいたはず"
-      ]
-    }
-  },
-  {
-    id: "relieved",
-    order: 27,
-    title: "第27回 安心",
-    questions: [
-      {
-        type: "reorder",
-        words: ["れんらくが", "きて", "あんしんしました"],
-        translation: "I felt relieved when the message came."
-      },
-      {
-        type: "reorder",
-        words: ["ぶじに", "ついて", "あんしんしました"],
-        translation: "I felt relieved that they arrived safely."
-      },
-      {
-        type: "reorder",
-        words: ["てんすうが", "よくて", "あんしんしました"],
-        translation: "I felt relieved the score was good."
-      },
-      {
-        type: "vocab",
-        prompt: "れんらく",
-        answer: "contact/message",
-        options: ["contact/message", "safe", "score", "typhoon"]
-      },
-      {
-        type: "vocab",
-        prompt: "ぶじ",
-        answer: "safe/unharmed",
-        options: ["safe/unharmed", "contact/message", "score", "exam"]
-      },
-      {
-        type: "vocab",
-        prompt: "てんすう",
-        answer: "score",
-        options: ["score", "safe/unharmed", "contact/message", "typhoon"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Did you feel relieved the message came?",
-          words: ["れんらくが", "きて", "あんしんしましたか"],
-          answer: "れんらくが きて あんしんしましたか",
-          reply: "はい、あんしんしました。"
-        },
-        {
-          english: "Did you feel relieved they arrived safely?",
-          words: ["ぶじに", "ついて", "あんしんしましたか"],
-          answer: "ぶじに ついて あんしんしましたか",
-          reply: "はい、あんしんしました。"
-        },
-        {
-          english: "Did you feel relieved the score was good?",
-          answer: "てんすうが よくて あんしんしましたか",
-          reply: "はい、あんしんしました。"
-        },
-        {
-          english: "Are you relieved now?",
-          answer: "いま あんしんしていますか",
-          reply: "はい、あんしんしています。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "安心した理由は「て形＋あんしんしました」で表す",
-        "「あんしんしました」は過去形（すでに安心した気持ち）",
-        "「あんしんしています」なら今も安心している状態",
-        "心配→安心、という流れの会話でよく使われる"
-      ]
-    }
-  },
-  {
-    id: "surprised",
-    order: 28,
-    title: "第28回 びっくり",
-    questions: [
-      {
-        type: "reorder",
-        words: ["おおきい", "おとが", "して", "びっくりしました"],
-        translation: "I was surprised by the loud sound."
-      },
-      {
-        type: "reorder",
-        words: ["ニュースを", "きいて", "びっくりしました"],
-        translation: "I was surprised to hear the news."
-      },
-      {
-        type: "reorder",
-        words: ["かかくが", "たかくて", "びっくりしました"],
-        translation: "I was surprised the price was expensive."
-      },
-      {
-        type: "vocab",
-        prompt: "おと",
-        answer: "sound",
-        options: ["sound", "news", "price", "surprise"]
-      },
-      {
-        type: "vocab",
-        prompt: "ニュース",
-        answer: "news",
-        options: ["news", "sound", "price", "earthquake"]
-      },
-      {
-        type: "vocab",
-        prompt: "かかく",
-        answer: "price",
-        options: ["price", "sound", "news", "surprise"]
-      },
-      {
-        type: "vocab",
-        prompt: "じしん",
-        answer: "earthquake",
-        options: ["earthquake", "price", "news", "sound"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Were you surprised by the loud sound?",
-          words: ["おおきいおとが して", "びっくりしましたか"],
-          answer: "おおきいおとが して びっくりしましたか",
-          reply: "はい、びっくりしました。"
-        },
-        {
-          english: "Were you surprised to hear the news?",
-          words: ["ニュースを", "きいて", "びっくりしましたか"],
-          answer: "ニュースを きいて びっくりしましたか",
-          reply: "はい、とても びっくりしました。"
-        },
-        {
-          english: "Were you surprised the price was expensive?",
-          answer: "かかくが たかくて びっくりしましたか",
-          reply: "はい、びっくりしました。"
-        },
-        {
-          english: "Were you surprised by the earthquake?",
-          answer: "じしんに びっくりしましたか",
-          reply: "はい、びっくりしました。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "驚いた理由も「て形＋びっくりしました」で表す",
-        "「〜にびっくりする」の形もよく使われる（じしんにびっくりする）",
-        "音・ニュース・値段など、予想外の出来事に使う",
-        "これも過去形「びっくりしました」がよく使われる"
-      ]
-    }
-  },
-  {
-    id: "disappointed",
-    order: 29,
-    title: "第29回 残念",
-    questions: [
-      {
-        type: "reorder",
-        words: ["りょこうが", "ちゅうしになって", "ざんねんです"],
-        translation: "It's a shame the trip was cancelled."
-      },
-      {
-        type: "reorder",
-        words: ["しあいに", "まけて", "ざんねんです"],
-        translation: "It's a shame we lost the match."
-      },
-      {
-        type: "reorder",
-        words: ["てんきが", "わるくて", "ざんねんです"],
-        translation: "It's a shame the weather is bad."
-      },
-      {
-        type: "vocab",
-        prompt: "ちゅうし",
-        answer: "cancellation",
-        options: ["cancellation", "match", "travel", "weather"]
-      },
-      {
-        type: "vocab",
-        prompt: "しあい",
-        answer: "match/game",
-        options: ["match/game", "cancellation", "travel", "loss"]
-      },
-      {
-        type: "vocab",
-        prompt: "まけ",
-        answer: "loss (sports)",
-        options: ["loss (sports)", "match/game", "cancellation", "weather"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Is it a shame the trip was cancelled?",
-          words: ["りょこうが", "ちゅうしになって", "ざんねんですか"],
-          answer: "りょこうが ちゅうしになって ざんねんですか",
-          reply: "はい、ざんねんです。"
-        },
-        {
-          english: "Is it a shame you lost the match?",
-          words: ["しあいに", "まけて", "ざんねんですか"],
-          answer: "しあいに まけて ざんねんですか",
-          reply: "はい、ざんねんです。"
-        },
-        {
-          english: "Is it a shame the weather is bad?",
-          answer: "てんきが わるくて ざんねんですか",
-          reply: "はい、ほんとうに ざんねんです。"
-        },
-        {
-          english: "Was the trip cancelled?",
-          answer: "りょこうは ちゅうしに なりましたか",
-          reply: "はい、なりました。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "残念な理由も「て形＋ざんねんです」で表す",
-        "中止・負け・悪い天気など、期待外れの出来事によく使う",
-        "「なります」（〜になる）は状態の変化を表す動詞",
-        "感情表現のパターンは全部同じ形でできることを確認しよう"
-      ]
-    }
-  },
-  {
-    id: "tired",
-    order: 30,
-    title: "第30回 疲れる",
-    questions: [
-      {
-        type: "reorder",
-        words: ["うんどうを", "して", "つかれました"],
-        translation: "I got tired from exercising."
-      },
-      {
-        type: "reorder",
-        words: ["ざんぎょうを", "して", "つかれました"],
-        translation: "I got tired from working overtime."
-      },
-      {
-        type: "reorder",
-        words: ["やまに", "のぼって", "つかれました"],
-        translation: "I got tired from climbing the mountain."
-      },
-      {
-        type: "vocab",
-        prompt: "うんどう",
-        answer: "exercise",
-        options: ["exercise", "overtime work", "mountain", "travel"]
-      },
-      {
-        type: "vocab",
-        prompt: "ざんぎょう",
-        answer: "overtime work",
-        options: ["overtime work", "exercise", "mountain", "study"]
-      },
-      {
-        type: "vocab",
-        prompt: "やま",
-        answer: "mountain",
-        options: ["mountain", "overtime work", "exercise", "travel"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Did you get tired from exercising?",
-          words: ["うんどうを", "して", "つかれましたか"],
-          answer: "うんどうを して つかれましたか",
-          reply: "はい、つかれました。"
-        },
-        {
-          english: "Did you get tired from working overtime?",
-          words: ["ざんぎょうを", "して", "つかれましたか"],
-          answer: "ざんぎょうを して つかれましたか",
-          reply: "はい、とても つかれました。"
-        },
-        {
-          english: "Did you get tired from climbing the mountain?",
-          answer: "やまに のぼって つかれましたか",
-          reply: "はい、つかれました。"
-        },
-        {
-          english: "Are you tired now?",
-          answer: "いま つかれていますか",
-          reply: "はい、すこし つかれています。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "疲れた理由は「て形＋つかれました」で表す",
-        "運動・仕事・登山など、体力を使う活動によく使う",
-        "「つかれています」なら今も疲れている状態が続いていることを表す",
-        "③のレッスンで「て形＋感情」のパターンを一通り練習した"
-      ]
-    }
-  },
-  {
-    id: "past_tense",
-    order: 31,
-    title: "第31回 過去形",
-    questions: [
-      {
-        type: "reorder",
-        words: ["きのう", "ほんを", "よみました"],
-        translation: "Yesterday I read a book."
-      },
-      {
-        type: "reorder",
-        words: ["せんしゅう", "がっこうを", "やすみました"],
-        translation: "Last week I was absent from school."
-      },
-      {
-        type: "reorder",
-        words: ["きのうは", "あめでした"],
-        translation: "Yesterday was rainy."
-      },
-      {
-        type: "vocab",
-        prompt: "きのう",
-        answer: "yesterday",
-        options: ["yesterday", "last week", "the day before yesterday", "long ago"]
-      },
-      {
-        type: "vocab",
-        prompt: "せんしゅう",
-        answer: "last week",
-        options: ["last week", "yesterday", "long ago", "a moment ago"]
-      },
-      {
-        type: "vocab",
-        prompt: "おととい",
-        answer: "the day before yesterday",
-        options: ["the day before yesterday", "last week", "yesterday", "long ago"]
-      },
-      {
-        type: "vocab",
-        prompt: "むかし",
-        answer: "long ago",
-        options: ["long ago", "the day before yesterday", "a moment ago", "yesterday"]
-      },
-      {
-        type: "vocab",
-        prompt: "さっき",
-        answer: "a moment ago",
-        options: ["a moment ago", "long ago", "last week", "yesterday"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Did you read a book yesterday?",
-          words: ["きのう", "ほんを", "よみましたか"],
-          answer: "きのう ほんを よみましたか",
-          reply: "はい、よみました。"
-        },
-        {
-          english: "Was yesterday rainy?",
-          words: ["きのうは", "あめでしたか"],
-          answer: "きのうは あめでしたか",
-          reply: "いいえ、はれでした。"
-        },
-        {
-          english: "Were you absent from school last week?",
-          answer: "せんしゅう がっこうを やすみましたか",
-          reply: "はい、やすみました。"
-        },
-        {
-          english: "Was it cold the day before yesterday?",
-          answer: "おとといは さむかったですか",
-          reply: "はい、さむかったです。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "動詞の過去形は「ました」（よみます→よみました）",
-        "「です」の過去形は「でした」（あめです→あめでした）",
-        "い形容詞の過去形は「かった」（さむい→さむかった）",
-        "「きのう」「せんしゅう」など時間ことばと一緒によく使う"
-      ]
-    }
-  },
-  {
-    id: "future_tense",
-    order: 32,
-    title: "第32回 未来形",
-    questions: [
-      {
-        type: "reorder",
-        words: ["らいしゅう", "にほんに", "いきます"],
-        translation: "Next week I will go to Japan."
-      },
-      {
-        type: "reorder",
-        words: ["あした", "たぶん", "あめでしょう"],
-        translation: "Tomorrow it will probably rain."
-      },
-      {
-        type: "reorder",
-        words: ["もうすぐ", "はるに", "なるでしょう"],
-        translation: "Spring will probably come soon."
-      },
-      {
-        type: "vocab",
-        prompt: "らいしゅう",
-        answer: "next week",
-        options: ["next week", "next month", "probably", "surely"]
-      },
-      {
-        type: "vocab",
-        prompt: "らいげつ",
-        answer: "next month",
-        options: ["next month", "next week", "probably", "spring"]
-      },
-      {
-        type: "vocab",
-        prompt: "たぶん",
-        answer: "probably",
-        options: ["probably", "surely", "next week", "spring"]
-      },
-      {
-        type: "vocab",
-        prompt: "きっと",
-        answer: "surely",
-        options: ["surely", "probably", "next month", "spring"]
-      },
-      {
-        type: "vocab",
-        prompt: "はる",
-        answer: "spring",
-        options: ["spring", "surely", "probably", "next week"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Will you go to Japan next week?",
-          words: ["らいしゅう", "にほんに", "いきますか"],
-          answer: "らいしゅう にほんに いきますか",
-          reply: "はい、いきます。"
-        },
-        {
-          english: "Will it probably rain tomorrow?",
-          words: ["あした", "たぶん", "あめでしょうか"],
-          answer: "あした たぶん あめでしょうか",
-          reply: "はい、たぶん そうです。"
-        },
-        {
-          english: "Will spring come soon?",
-          answer: "もうすぐ はるに なるでしょうか",
-          reply: "はい、きっと そうです。"
-        },
-        {
-          english: "Will you surely come next month?",
-          answer: "らいげつ きっと きますか",
-          reply: "はい、きっと きます。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "未来のことは、現在形（辞書形／ます形）でそのまま表せる",
-        "推量には「でしょう」をよく使う（あめでしょう）",
-        "「たぶん」「きっと」などのことばで確信の度合いを調整できる",
-        "「らいしゅう」「らいげつ」など未来を表す時間ことばと組み合わせる"
-      ]
-    }
-  },
-  {
-    id: "conditional",
-    order: 33,
-    title: "第33回 条件",
-    questions: [
-      {
-        type: "reorder",
-        words: ["ボタンを", "おすと", "ドアが", "あきます"],
-        translation: "If you press the button, the door opens."
-      },
-      {
-        type: "reorder",
-        words: ["あめが", "ふったら", "いえに", "います"],
-        translation: "If it rains, I'll stay home."
-      },
-      {
-        type: "reorder",
-        words: ["じかんが", "あれば", "てつだいます"],
-        translation: "If I have time, I'll help."
-      },
-      {
-        type: "vocab",
-        prompt: "みぎ",
-        answer: "right",
-        options: ["right", "left", "straight", "turn"]
-      },
-      {
-        type: "vocab",
-        prompt: "ひだり",
-        answer: "left",
-        options: ["left", "right", "straight", "button"]
-      },
-      {
-        type: "vocab",
-        prompt: "まっすぐ",
-        answer: "straight",
-        options: ["straight", "left", "right", "turn"]
-      },
-      {
-        type: "vocab",
-        prompt: "まがる",
-        answer: "turn",
-        options: ["turn", "straight", "left", "right"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Does the door open if you press the button?",
-          words: ["ボタンを", "おすと", "ドアが あきますか"],
-          answer: "ボタンを おすと ドアが あきますか",
-          reply: "はい、あきます。"
-        },
-        {
-          english: "If it rains, will you stay home?",
-          words: ["あめが", "ふったら", "いえに いますか"],
-          answer: "あめが ふったら いえに いますか",
-          reply: "はい、いえに います。"
-        },
-        {
-          english: "If you have time, will you help?",
-          answer: "じかんが あれば てつだいますか",
-          reply: "はい、てつだいます。"
-        },
-        {
-          english: "If you turn right, is the station there?",
-          answer: "みぎに まがったら えきが ありますか",
-          reply: "はい、あります。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "条件表現には「と」「たら」「ば」「なら」がある",
-        "「と」は自動的な結果（ボタンをおすとあきます）",
-        "「たら」は日常会話でよく使う一般的な条件（ふったら〜）",
-        "「ば」はやや書きことば的、「なら」は相手の話を受けて条件を出すときに使う"
-      ]
-    }
-  },
-  {
-    id: "reason",
-    order: 34,
-    title: "第34回 理由",
-    questions: [
-      {
-        type: "reorder",
-        words: ["かぜを", "ひいたから", "やすみます"],
-        translation: "Because I have a cold, I'll take the day off."
-      },
-      {
-        type: "reorder",
-        words: ["いそがしいので", "いけません"],
-        translation: "Because I'm busy, I can't go."
-      },
-      {
-        type: "reorder",
-        words: ["ねつが", "あるから", "びょういんに", "いきます"],
-        translation: "Because I have a fever, I'll go to the hospital."
-      },
-      {
-        type: "vocab",
-        prompt: "かぜ",
-        answer: "cold (illness)",
-        options: ["cold (illness)", "fever", "busy", "day off"]
-      },
-      {
-        type: "vocab",
-        prompt: "ねつ",
-        answer: "fever",
-        options: ["fever", "cold (illness)", "busy", "circumstance"]
-      },
-      {
-        type: "vocab",
-        prompt: "いそがしい",
-        answer: "busy",
-        options: ["busy", "fever", "day off", "cold (illness)"]
-      },
-      {
-        type: "vocab",
-        prompt: "やすみ",
-        answer: "day off",
-        options: ["day off", "busy", "fever", "circumstance"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Will you take the day off because you have a cold?",
-          words: ["かぜを", "ひいたから", "やすみますか"],
-          answer: "かぜを ひいたから やすみますか",
-          reply: "はい、やすみます。"
-        },
-        {
-          english: "Can't you go because you're busy?",
-          words: ["いそがしいので", "いけませんか"],
-          answer: "いそがしいので いけませんか",
-          reply: "はい、いけません。"
-        },
-        {
-          english: "Will you go to the hospital because you have a fever?",
-          answer: "ねつが あるから びょういんに いきますか",
-          reply: "はい、いきます。"
-        },
-        {
-          english: "Why are you absent?",
-          answer: "どうして やすみますか",
-          reply: "かぜを ひいたからです。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "理由は「から」または「ので」で表す",
-        "「から」は主観的・話し言葉らしい理由づけ",
-        "「ので」はやや丁寧・客観的な理由づけ",
-        "「どうして〜ですか」に「〜からです」で答えられる"
-      ]
-    }
-  },
-  {
-    id: "comparison",
-    order: 35,
-    title: "第35回 比較表現",
-    questions: [
-      {
-        type: "reorder",
-        words: ["コーヒーの", "ほうが", "すきです"],
-        translation: "I like coffee more."
-      },
-      {
-        type: "reorder",
-        words: ["なつが", "いちばん", "すきです"],
-        translation: "I like summer the most."
-      },
-      {
-        type: "reorder",
-        words: ["どちらが", "すきですか"],
-        translation: "Which do you like (of the two)?"
-      },
-      {
-        type: "vocab",
-        prompt: "ほう",
-        answer: "side/direction (for comparison)",
-        options: ["side/direction (for comparison)", "the most", "which (of two)", "compare"]
-      },
-      {
-        type: "vocab",
-        prompt: "いちばん",
-        answer: "the most",
-        options: ["the most", "side/direction (for comparison)", "which (of two)", "compare"]
-      },
-      {
-        type: "vocab",
-        prompt: "どちら",
-        answer: "which (of two)",
-        options: ["which (of two)", "the most", "compare", "side/direction (for comparison)"]
-      },
-      {
-        type: "vocab",
-        prompt: "くらべる",
-        answer: "compare",
-        options: ["compare", "which (of two)", "the most", "side/direction (for comparison)"]
-      }
-    ],
-    conversation: {
-      rounds: [
-        {
-          english: "Do you like coffee more?",
-          words: ["コーヒーの", "ほうが", "すきですか"],
-          answer: "コーヒーの ほうが すきですか",
-          reply: "はい、コーヒーの ほうが すきです。"
-        },
-        {
-          english: "Which do you like?",
-          words: ["どちらが", "すきですか"],
-          answer: "どちらが すきですか",
-          reply: "こちらが すきです。"
-        },
-        {
-          english: "Do you like summer the most?",
-          answer: "なつが いちばん すきですか",
-          reply: "はい、いちばん すきです。"
-        },
-        {
-          english: "Is Japanese more difficult than English?",
-          answer: "にほんごは えいごより むずかしいですか",
-          reply: "はい、すこし むずかしいです。"
-        }
-      ]
-    },
-    summary: {
-      points: [
-        "2つを比べるときは「AのほうがBよりすきです」の形を使う",
-        "「どちらが〜ですか」で2つのうちどちらか聞ける",
-        "3つ以上の中で一番のものは「いちばん〜」で表す",
-        "「より」は「〜と比べて」という意味の比較の助詞"
+        "I-adjectives can go directly before a noun as they are (たかいほん “an expensive book”).",
+        "Na-adjectives need “な” before a noun (しずかなへや “a quiet room”).",
+        "Notice how the form changes, e.g. “きれいです” → “きれいなひと” (a pretty person).",
+        "Using this pattern lets you describe nouns in more detail."
       ]
     }
   }

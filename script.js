@@ -39,7 +39,10 @@ const els = {
 
   summaryBackButton: document.getElementById("summaryBackButton"),
   summaryLessonTitle: document.getElementById("summaryLessonTitle"),
+  summarySubtitle: document.getElementById("summarySubtitle"),
   summaryContent: document.getElementById("summaryContent"),
+  summaryQuizActions: document.getElementById("summaryQuizActions"),
+  summaryStartQuizButton: document.getElementById("summaryStartQuizButton"),
 
   progressFill: document.getElementById("progressFill"),
   scoreBadge: document.getElementById("scoreBadge"),
@@ -96,9 +99,9 @@ const els = {
 };
 
 const TYPE_LABEL = {
-  particle: "じょし | 助詞をえらぼう",
-  reorder: "ならびかえ",
-  vocab: "たんごクイズ",
+  particle: "Grammar | Choose the particle",
+  reorder: "Word Order",
+  vocab: "Vocabulary Quiz",
 };
 
 // 問題タイプごとの基本ポイント（ならびかえは少し難しいので高め）
@@ -130,6 +133,7 @@ let state = {
   wrongList: [], // 再挑戦しても最終的に間違えた問題（けっか画面のレビュー用）
   answered: false,
   reorder: null, // { slots: [...], bank: [...] }
+  pendingQuiz: null, // { questions, modeKey } — 解説ページの後にはじめる問題（もんだいをとくボタン用）
 };
 
 let convState = {
@@ -191,7 +195,7 @@ function renderStudentList() {
   if (typeof STUDENTS === "undefined" || STUDENTS.length === 0) {
     const empty = document.createElement("div");
     empty.className = "empty-state";
-    empty.textContent = "生徒がまだ登録されていません。";
+    empty.textContent = "No students registered yet.";
     els.studentList.appendChild(empty);
     return;
   }
@@ -203,7 +207,7 @@ function renderStudentList() {
       <div class="lesson-card-info">
         <h3>${student.name}</h3>
       </div>
-      <div class="lesson-start-button">これ ›</div>
+      <div class="lesson-start-button">Select ›</div>
     `;
     card.addEventListener("click", () => chooseStudent(student));
     els.studentList.appendChild(card);
@@ -317,7 +321,7 @@ function isLessonFullyMastered(lessonId) {
 /* ---------------- レッスン選択 ---------------- */
 
 function renderLessonSelectScreen() {
-  els.selectGreeting.textContent = `${currentStudent.name}さん、練習したいレッスンをえらんでね`;
+  els.selectGreeting.textContent = `Hi ${currentStudent.name}, choose a lesson to practice!`;
 
   const { level, xpIntoLevel, xpForNextLevel } = computeLevel(currentProgress.totalXP);
   els.levelBadge.textContent = `Lv.${level}`;
@@ -325,7 +329,7 @@ function renderLessonSelectScreen() {
   els.levelXpText.textContent = `${xpIntoLevel} / ${xpForNextLevel} XP`;
 
   const mistakeCount = currentProgress.mistakes.length;
-  els.reviewCount.textContent = mistakeCount > 0 ? `${mistakeCount}問 まちがえてる` : "なし";
+  els.reviewCount.textContent = mistakeCount > 0 ? `${mistakeCount} to review` : "None";
   els.reviewButton.disabled = mistakeCount === 0;
   els.reviewButton.classList.toggle("mode-disabled", mistakeCount === 0);
 
@@ -333,14 +337,14 @@ function renderLessonSelectScreen() {
   const unlocked = Math.min(currentStudent.unlockedUpTo, total);
   const pct = total === 0 ? 0 : (unlocked / total) * 100;
   els.studentProgressFill.style.width = pct + "%";
-  els.studentProgressText.textContent = `しんちょく: ${unlocked} / ${total}回`;
+  els.studentProgressText.textContent = `Progress: ${unlocked} / ${total} lessons`;
 
   els.lessonList.innerHTML = "";
 
   if (total === 0) {
     const empty = document.createElement("div");
     empty.className = "empty-state";
-    empty.textContent = "まだレッスンがありません。スライドの写真を送ってレッスンを作ってもらおう。";
+    empty.textContent = "No lessons yet.";
     els.lessonList.appendChild(empty);
     return;
   }
@@ -350,7 +354,7 @@ function renderLessonSelectScreen() {
   if (visibleLessons.length === 0) {
     const empty = document.createElement("div");
     empty.className = "empty-state";
-    empty.textContent = "まだ解禁されているレッスンがありません。せんせいに聞いてみよう。";
+    empty.textContent = "No lessons unlocked yet. Ask your teacher!";
     els.lessonList.appendChild(empty);
     return;
   }
@@ -362,9 +366,9 @@ function renderLessonSelectScreen() {
     card.innerHTML = `
       <div class="lesson-card-info">
         <h3>${lesson.title}${crown}</h3>
-        <p>${lesson.questions.length}問${lesson.conversation ? " ・ かいわあり" : ""}</p>
+        <p>${lesson.questions.length} questions${lesson.conversation ? " · conversation included" : ""}</p>
       </div>
-      <div class="lesson-start-button">ひらく ›</div>
+      <div class="lesson-start-button">Open ›</div>
     `;
     card.addEventListener("click", () => openHome(lesson));
     els.lessonList.appendChild(card);
@@ -382,10 +386,10 @@ function openHome(lesson) {
   const hasSummary = !!(lesson.summary && lesson.summary.points && lesson.summary.points.length);
 
   els.homeLessonTitle.textContent = lesson.title;
-  els.modeVocabCount.textContent = `${vocabCount}問`;
-  els.modeGrammarCount.textContent = `${grammarCount}問`;
-  els.modeConversationCount.textContent = hasConversation ? `${lesson.conversation.rounds.length}ラウンド` : "じゅんびちゅう";
-  els.modeSummaryCount.textContent = hasSummary ? `${lesson.summary.points.length}こ` : "じゅんびちゅう";
+  els.modeVocabCount.textContent = `${vocabCount} questions`;
+  els.modeGrammarCount.textContent = `${grammarCount} questions`;
+  els.modeConversationCount.textContent = hasConversation ? `${lesson.conversation.rounds.length} rounds` : "Coming soon";
+  els.modeSummaryCount.textContent = hasSummary ? `${lesson.summary.points.length} points` : "Coming soon";
 
   els.modeVocabButton.disabled = vocabCount === 0;
   els.modeVocabButton.classList.toggle("mode-disabled", vocabCount === 0);
@@ -411,6 +415,7 @@ els.homeBackButton.addEventListener("click", () => {
 });
 
 els.modeSummaryButton.addEventListener("click", () => {
+  state.pendingQuiz = null;
   openSummary(state.homeLesson);
 });
 
@@ -423,19 +428,46 @@ function openSummary(lesson) {
     div.textContent = point;
     els.summaryContent.appendChild(div);
   });
+
+  const isPreQuiz = !!state.pendingQuiz;
+  els.summarySubtitle.classList.toggle("hidden", !isPreQuiz);
+  els.summaryQuizActions.classList.toggle("hidden", !isPreQuiz);
+
   showScreen("summary");
 }
 
-els.summaryBackButton.addEventListener("click", () => showScreen("home"));
+els.summaryBackButton.addEventListener("click", () => {
+  state.pendingQuiz = null;
+  showScreen("home");
+});
+
+els.summaryStartQuizButton.addEventListener("click", () => {
+  if (!state.pendingQuiz) return;
+  const { questions, modeKey } = state.pendingQuiz;
+  state.pendingQuiz = null;
+  startLesson(state.homeLesson, questions, modeKey);
+});
 
 els.modeVocabButton.addEventListener("click", () => {
   const questions = state.homeLesson.questions.filter((q) => q.type === "vocab");
-  startLesson(state.homeLesson, questions, "vocab");
+  const hasSummary = !!(state.homeLesson.summary && state.homeLesson.summary.points && state.homeLesson.summary.points.length);
+  if (hasSummary) {
+    state.pendingQuiz = { questions, modeKey: "vocab" };
+    openSummary(state.homeLesson);
+  } else {
+    startLesson(state.homeLesson, questions, "vocab");
+  }
 });
 
 els.modeGrammarButton.addEventListener("click", () => {
   const questions = state.homeLesson.questions.filter((q) => GRAMMAR_TYPES.includes(q.type));
-  startLesson(state.homeLesson, questions, "grammar");
+  const hasSummary = !!(state.homeLesson.summary && state.homeLesson.summary.points && state.homeLesson.summary.points.length);
+  if (hasSummary) {
+    state.pendingQuiz = { questions, modeKey: "grammar" };
+    openSummary(state.homeLesson);
+  } else {
+    startLesson(state.homeLesson, questions, "grammar");
+  }
 });
 
 els.modeConversationButton.addEventListener("click", () => {
@@ -461,7 +493,7 @@ function startLesson(lesson, questions, modeKey) {
   state.wrongOnceIds = new Set();
   state.wrongList = [];
 
-  els.backToHomeButton.textContent = "ホームにもどる";
+  els.backToHomeButton.textContent = "Back to Home";
   showScreen("quiz");
   renderQuestion();
 }
@@ -474,7 +506,7 @@ function startReview() {
   const mistakes = currentProgress.mistakes;
   const wrapped = mistakes.map((m, i) => ({ uid: i, question: m.question, isRetry: true, sig: m.sig }));
 
-  state.lesson = { id: "__review__", title: "ふくしゅう" };
+  state.lesson = { id: "__review__", title: "Review" };
   state.homeLesson = null;
   state.mode = "review";
   state.modeQuestions = mistakes.map((m) => m.question);
@@ -488,7 +520,7 @@ function startReview() {
   state.wrongOnceIds = new Set();
   state.wrongList = [];
 
-  els.backToHomeButton.textContent = "レッスン一覧にもどる";
+  els.backToHomeButton.textContent = "Back to Lesson List";
   showScreen("quiz");
   renderQuestion();
 }
@@ -559,7 +591,7 @@ function renderParticleQuestion(q) {
 function renderVocabQuestion(q) {
   els.questionArea.innerHTML = `
     <div class="vocab-prompt">${q.prompt}</div>
-    <div class="vocab-hint">この言葉の意味は?</div>
+    <div class="vocab-hint">What does this word mean?</div>
   `;
 
   const options = shuffle(q.options);
@@ -574,7 +606,7 @@ function renderVocabQuestion(q) {
 
 function renderReorderQuestion(q) {
   els.questionArea.innerHTML = `
-    <div class="reorder-instruction">正しい順番にタップしよう</div>
+    <div class="reorder-instruction">Tap the words in the right order</div>
     <div class="reorder-slots" id="reorderSlots"></div>
   `;
   els.optionsArea.className = "options-area reorder-bank";
@@ -683,7 +715,7 @@ function finishAnswer(isCorrect, q, userAnswerDisplay, correctAnswerDisplay) {
     if (item.isRetry) {
       earned *= 2;
       parts[0] = `+${earned}pt`;
-      parts.push("2倍ボーナス！");
+      parts.push("2x bonus!");
       state.redeemedCount++;
     }
 
@@ -706,7 +738,7 @@ function finishAnswer(isCorrect, q, userAnswerDisplay, correctAnswerDisplay) {
       const insertAt = Math.min(state.queue.length, 2 + Math.floor(Math.random() * 3));
       const sig = item.sig || questionSignature(state.lesson.id, q);
       state.queue.splice(insertAt, 0, { uid: item.uid, question: q, isRetry: true, sig });
-      bonusText = "ざんねん…もう一回チャレンジできるよ！せいかいで2倍ポイント";
+      bonusText = "So close... you'll get another chance! Correct = double points";
     } else {
       state.wrongList.push({
         type: q.type,
@@ -722,12 +754,12 @@ function finishAnswer(isCorrect, q, userAnswerDisplay, correctAnswerDisplay) {
 
   els.feedbackBanner.classList.remove("hidden", "is-correct", "is-wrong");
   els.feedbackBanner.classList.add(isCorrect ? "is-correct" : "is-wrong");
-  els.feedbackText.textContent = isCorrect ? "せいかい! 🎉" : "ざんねん...";
+  els.feedbackText.textContent = isCorrect ? "Correct! 🎉" : "Not quite...";
   els.feedbackBonus.textContent = bonusText;
   els.feedbackTranslation.textContent = q.translation ? q.translation : "";
 
   const isLast = state.queue.length === 0;
-  els.nextButton.textContent = isLast ? "けっかを見る →" : "つぎへ →";
+  els.nextButton.textContent = isLast ? "See results →" : "Next →";
 }
 
 function questionDisplayText(q) {
@@ -749,7 +781,7 @@ els.nextButton.addEventListener("click", () => {
 
 els.quitButton.addEventListener("click", () => {
   const isReview = state.mode === "review";
-  const msg = isReview ? "れんしゅうをやめてレッスン一覧にもどりますか?" : "れんしゅうをやめてホームにもどりますか?";
+  const msg = isReview ? "Quit practice and return to the lesson list?" : "Quit practice and return to home?";
   if (confirm(msg)) {
     if (isReview) {
       renderLessonSelectScreen();
@@ -767,7 +799,7 @@ function finishLesson() {
   const mastered = total - state.wrongList.length;
   const pct = total === 0 ? 0 : Math.round((mastered / total) * 100);
 
-  els.resultScoreText.textContent = `${mastered} / ${total} せいかい`;
+  els.resultScoreText.textContent = `${mastered} / ${total} correct`;
   els.resultPoints.textContent = state.points;
   els.resultBestStreak.textContent = state.bestStreak;
   els.resultRedeemed.textContent = state.redeemedCount;
@@ -778,16 +810,16 @@ function finishLesson() {
 
   if (pct === 100) {
     els.resultEmoji.textContent = "🏆";
-    els.resultMessage.textContent = state.mode === "normal" ? "パーフェクト！👑 王冠げっと！" : "パーフェクト！かんぺきだね！";
+    els.resultMessage.textContent = state.mode === "normal" ? "Perfect! 👑 Crown earned!" : "Perfect! Amazing job!";
   } else if (pct >= 80) {
     els.resultEmoji.textContent = "🎉";
-    els.resultMessage.textContent = "すごい！よくできました！";
+    els.resultMessage.textContent = "Great job! Well done!";
   } else if (pct >= 50) {
     els.resultEmoji.textContent = "💪";
-    els.resultMessage.textContent = "いいかんじ！もう少し練習しよう。";
+    els.resultMessage.textContent = "Nice work! Keep practicing a bit more.";
   } else {
     els.resultEmoji.textContent = "🌱";
-    els.resultMessage.textContent = "だいじょうぶ！もう一度チャレンジしてみよう。";
+    els.resultMessage.textContent = "That's okay! Give it another try.";
   }
 
   if (state.wrongList.length > 0) {
@@ -799,7 +831,7 @@ function finishLesson() {
       div.innerHTML = `
         <div class="review-item-type">${TYPE_LABEL[item.type]}</div>
         <div class="review-item-q">${item.questionDisplay}</div>
-        <div class="review-item-answer">正解: ${item.correctAnswerDisplay}${item.userAnswerDisplay ? ` (あなたの答え: ${item.userAnswerDisplay})` : ""}</div>
+        <div class="review-item-answer">Correct: ${item.correctAnswerDisplay}${item.userAnswerDisplay ? ` (Your answer: ${item.userAnswerDisplay})` : ""}</div>
         ${item.translation ? `<div class="review-item-translation">${item.translation}</div>` : ""}
       `;
       els.reviewList.appendChild(div);
@@ -962,9 +994,9 @@ function checkConvAnswer(rawUserText, displayUserText) {
   }
 
   els.convFeedback.classList.remove("hidden");
-  els.convFeedbackText.textContent = isCorrect ? "せいかい! 🎉" : "ざんねん...";
+  els.convFeedbackText.textContent = isCorrect ? "Correct! 🎉" : "Not quite...";
   els.convFeedbackText.style.color = isCorrect ? "var(--good)" : "var(--bad)";
-  els.convCorrectAnswer.textContent = `せいかい: ${round.answer}`;
+  els.convCorrectAnswer.textContent = `Correct: ${round.answer}`;
 
   if (round.reply) {
     els.convReplyBubble.textContent = `💬 ${round.reply}`;
@@ -972,7 +1004,7 @@ function checkConvAnswer(rawUserText, displayUserText) {
   }
 
   const isLast = convState.index === convState.rounds.length - 1;
-  els.convNextButton.textContent = isLast ? "けっかを見る →" : "つぎへ →";
+  els.convNextButton.textContent = isLast ? "See results →" : "Next →";
 }
 
 els.convNextButton.addEventListener("click", () => {
@@ -993,21 +1025,21 @@ function finishConversation() {
   const correct = convState.correctCount;
   const pct = total === 0 ? 0 : Math.round((correct / total) * 100);
 
-  els.convSummaryScore.textContent = `${correct} / ${total} せいかい`;
+  els.convSummaryScore.textContent = `${correct} / ${total} correct`;
 
   if (pct === 100) {
     markMastery(convState.lesson.id, "conversation");
     els.convSummaryEmoji.textContent = "🏆";
-    els.convSummaryMessage.textContent = "パーフェクト！👑 王冠げっと！";
+    els.convSummaryMessage.textContent = "Perfect! 👑 Crown earned!";
   } else if (pct >= 80) {
     els.convSummaryEmoji.textContent = "🎉";
-    els.convSummaryMessage.textContent = "すごい！じょうずに質問できたね！";
+    els.convSummaryMessage.textContent = "Amazing! You asked great questions!";
   } else if (pct >= 50) {
     els.convSummaryEmoji.textContent = "💪";
-    els.convSummaryMessage.textContent = "いいかんじ！もう少し練習しよう。";
+    els.convSummaryMessage.textContent = "Nice work! Keep practicing a bit more.";
   } else {
     els.convSummaryEmoji.textContent = "🌱";
-    els.convSummaryMessage.textContent = "だいじょうぶ！もう一度チャレンジしてみよう。";
+    els.convSummaryMessage.textContent = "That's okay! Give it another try.";
   }
 
   if (convState.wrongRounds.length > 0) {
@@ -1017,9 +1049,9 @@ function finishConversation() {
       const div = document.createElement("div");
       div.className = "review-item";
       div.innerHTML = `
-        <div class="review-item-type">かいわ</div>
+        <div class="review-item-type">Conversation</div>
         <div class="review-item-q">${item.english}</div>
-        <div class="review-item-answer">正解: ${item.correctAnswer}${item.userAnswer ? ` (あなたの答え: ${item.userAnswer})` : ""}</div>
+        <div class="review-item-answer">Correct: ${item.correctAnswer}${item.userAnswer ? ` (Your answer: ${item.userAnswer})` : ""}</div>
       `;
       els.convReviewList.appendChild(div);
     });
@@ -1037,7 +1069,7 @@ els.convHomeButton.addEventListener("click", () => {
 });
 
 els.convQuitButton.addEventListener("click", () => {
-  if (confirm("れんしゅうをやめてホームにもどりますか?")) {
+  if (confirm("Quit practice and return to home?")) {
     openHome(state.homeLesson);
   }
 });
